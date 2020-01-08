@@ -41,6 +41,10 @@ public class Wallet extends javax.swing.JFrame {
         menu_coins_button = new javax.swing.JButton();
         menu_transfer_button = new javax.swing.JButton();
         menu_verify_button = new javax.swing.JButton();
+        verify_successed = new javax.swing.JPanel();
+        verify_successed_label1 = new javax.swing.JLabel();
+        verify_successed_label2 = new javax.swing.JLabel();
+        verify_successed_menu_button = new javax.swing.JButton();
         coins = new javax.swing.JPanel();
         coins_label = new javax.swing.JLabel();
         coins_menu_button = new javax.swing.JButton();
@@ -61,6 +65,10 @@ public class Wallet extends javax.swing.JFrame {
         verify_coin_id_text = new javax.swing.JTextPane();
         verify_verify_button = new javax.swing.JButton();
         verify_menu_button = new javax.swing.JButton();
+        verify_failed = new javax.swing.JPanel();
+        verify_failed_label1 = new javax.swing.JLabel();
+        verify_failed_label2 = new javax.swing.JLabel();
+        verify_failed_menu_button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -90,21 +98,21 @@ public class Wallet extends javax.swing.JFrame {
         menu_coins_button.setText("COINS");
         menu_coins_button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menu_coins_buttonMouseClicked(evt);
+                navToCoins(evt);
             }
         });
 
         menu_transfer_button.setText("TRANSFER");
         menu_transfer_button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menu_transfer_buttonMouseClicked(evt);
+                navToTransfer(evt);
             }
         });
 
         menu_verify_button.setText("VERIFY");
         menu_verify_button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menu_verify_buttonMouseClicked(evt);
+                navToVerify(evt);
             }
         });
 
@@ -112,31 +120,35 @@ public class Wallet extends javax.swing.JFrame {
         menu.setLayout(menuLayout);
         menuLayout.setHorizontalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, menuLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(menu_label)
+                .addGap(226, 226, 226))
             .addGroup(menuLayout.createSequentialGroup()
+                .addGap(108, 108, 108)
+                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(menu_coin_numb_label)
+                    .addComponent(menu_coin_numb_scp, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(menu_wallet_id_label)
+                    .addComponent(menu_wallet_id_scp, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(108, 108, 108))
+            .addGroup(menuLayout.createSequentialGroup()
+                .addGap(180, 180, 180)
                 .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(menuLayout.createSequentialGroup()
-                        .addGap(207, 207, 207)
-                        .addComponent(menu_label))
+                        .addComponent(menu_verify_button, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(menuLayout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(menu_coin_numb_label)
-                            .addComponent(menu_coin_numb_scp, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(menu_wallet_id_label)
-                            .addComponent(menu_wallet_id_scp, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(menuLayout.createSequentialGroup()
-                        .addGap(165, 165, 165)
-                        .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(menu_coins_button, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(menu_verify_button, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(menu_transfer_button, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(117, Short.MAX_VALUE))
+                        .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(menu_coins_button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(menu_transfer_button, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         menuLayout.setVerticalGroup(
             menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(menuLayout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(menu_label)
+                .addComponent(menu_label, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(52, 52, 52)
                 .addComponent(menu_coin_numb_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -151,10 +163,63 @@ public class Wallet extends javax.swing.JFrame {
                 .addComponent(menu_transfer_button, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(menu_verify_button, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addGap(62, 62, 62))
         );
 
         holder.add(menu, "menu");
+
+        verify_successed.setBackground(new java.awt.Color(255, 255, 255));
+
+        verify_successed_label1.setBackground(new java.awt.Color(0, 0, 0));
+        verify_successed_label1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        verify_successed_label1.setText("VERIFICATION FAILED");
+
+        verify_successed_label2.setBackground(new java.awt.Color(0, 0, 0));
+        verify_successed_label2.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        verify_successed_label2.setText("YOU THE OWNER OF THE COIN");
+
+        verify_successed_menu_button.setText("MENU");
+        verify_successed_menu_button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                navToMenu(evt);
+            }
+        });
+
+        javax.swing.GroupLayout verify_successedLayout = new javax.swing.GroupLayout(verify_successed);
+        verify_successed.setLayout(verify_successedLayout);
+        verify_successedLayout.setHorizontalGroup(
+            verify_successedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(verify_successedLayout.createSequentialGroup()
+                .addGap(122, 122, 122)
+                .addComponent(verify_successed_label1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, verify_successedLayout.createSequentialGroup()
+                .addContainerGap(69, Short.MAX_VALUE)
+                .addComponent(verify_successed_label2)
+                .addGap(69, 69, 69))
+            .addGroup(verify_successedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(verify_successedLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(verify_successed_menu_button, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+        verify_successedLayout.setVerticalGroup(
+            verify_successedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(verify_successedLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(verify_successed_label1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(verify_successed_label2)
+                .addContainerGap(522, Short.MAX_VALUE))
+            .addGroup(verify_successedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(verify_successedLayout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(verify_successed_menu_button, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
+        );
+
+        holder.add(verify_successed, "verify_successed");
+        verify_successed.getAccessibleContext().setAccessibleName("");
 
         coins.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -165,7 +230,7 @@ public class Wallet extends javax.swing.JFrame {
         coins_menu_button.setText("MENU");
         coins_menu_button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                coins_menu_buttonMouseClicked(evt);
+                navToMenu(evt);
             }
         });
 
@@ -218,7 +283,7 @@ public class Wallet extends javax.swing.JFrame {
         transfer_menu_button.setText("MENU");
         transfer_menu_button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                transfer_menu_buttonMouseClicked(evt);
+                navToMenu(evt);
             }
         });
 
@@ -281,7 +346,7 @@ public class Wallet extends javax.swing.JFrame {
         verify_menu_button.setText("MENU");
         verify_menu_button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                verify_menu_buttonMouseClicked(evt);
+                navToMenu(evt);
             }
         });
 
@@ -324,6 +389,61 @@ public class Wallet extends javax.swing.JFrame {
 
         holder.add(verify, "verify");
 
+        verify_failed.setBackground(new java.awt.Color(255, 255, 255));
+
+        verify_failed_label1.setBackground(new java.awt.Color(0, 0, 0));
+        verify_failed_label1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        verify_failed_label1.setText("VERIFICATION FAILED");
+
+        verify_failed_label2.setBackground(new java.awt.Color(0, 0, 0));
+        verify_failed_label2.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
+        verify_failed_label2.setText("YOU ARE NOT THE OWNER OF THE COIN");
+
+        verify_failed_menu_button.setText("MENU");
+        verify_failed_menu_button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                navToMenu(evt);
+            }
+        });
+
+        javax.swing.GroupLayout verify_failedLayout = new javax.swing.GroupLayout(verify_failed);
+        verify_failed.setLayout(verify_failedLayout);
+        verify_failedLayout.setHorizontalGroup(
+            verify_failedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(verify_failedLayout.createSequentialGroup()
+                .addGroup(verify_failedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(verify_failedLayout.createSequentialGroup()
+                        .addGap(125, 125, 125)
+                        .addComponent(verify_failed_label1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(128, 128, 128))
+                    .addGroup(verify_failedLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(verify_failed_label2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(19, 19, 19)))
+                .addGap(13, 13, 13))
+            .addGroup(verify_failedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(verify_failedLayout.createSequentialGroup()
+                    .addGap(184, 184, 184)
+                    .addComponent(verify_failed_menu_button, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(203, Short.MAX_VALUE)))
+        );
+        verify_failedLayout.setVerticalGroup(
+            verify_failedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(verify_failedLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(verify_failed_label1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(verify_failed_label2)
+                .addContainerGap(514, Short.MAX_VALUE))
+            .addGroup(verify_failedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(verify_failedLayout.createSequentialGroup()
+                    .addGap(272, 272, 272)
+                    .addComponent(verify_failed_menu_button, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(273, Short.MAX_VALUE)))
+        );
+
+        holder.add(verify_failed, "verify_failed");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -342,35 +462,25 @@ public class Wallet extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menu_coins_buttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_coins_buttonMouseClicked
+    private void navToCoins(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navToCoins
         CardLayout cl = (CardLayout) holder.getLayout();
         cl.show(holder, "coins");
-    }//GEN-LAST:event_menu_coins_buttonMouseClicked
+    }//GEN-LAST:event_navToCoins
 
-    private void menu_transfer_buttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_transfer_buttonMouseClicked
+    private void navToTransfer(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navToTransfer
         CardLayout cl = (CardLayout) holder.getLayout();
         cl.show(holder, "transfer");
-    }//GEN-LAST:event_menu_transfer_buttonMouseClicked
+    }//GEN-LAST:event_navToTransfer
 
-    private void menu_verify_buttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menu_verify_buttonMouseClicked
+    private void navToVerify(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navToVerify
         CardLayout cl = (CardLayout) holder.getLayout();
         cl.show(holder, "verify");
-    }//GEN-LAST:event_menu_verify_buttonMouseClicked
+    }//GEN-LAST:event_navToVerify
 
-    private void coins_menu_buttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coins_menu_buttonMouseClicked
+    private void navToMenu(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_navToMenu
         CardLayout cl = (CardLayout) holder.getLayout();
         cl.show(holder, "menu");
-    }//GEN-LAST:event_coins_menu_buttonMouseClicked
-
-    private void transfer_menu_buttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_transfer_menu_buttonMouseClicked
-        CardLayout cl = (CardLayout) holder.getLayout();
-        cl.show(holder, "menu");
-    }//GEN-LAST:event_transfer_menu_buttonMouseClicked
-
-    private void verify_menu_buttonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_verify_menu_buttonMouseClicked
-        CardLayout cl = (CardLayout) holder.getLayout();
-        cl.show(holder, "menu");
-    }//GEN-LAST:event_verify_menu_buttonMouseClicked
+    }//GEN-LAST:event_navToMenu
 
     /**
      * @param args the command line arguments
@@ -436,8 +546,16 @@ public class Wallet extends javax.swing.JFrame {
     private javax.swing.JLabel verify_coin_id_label;
     private javax.swing.JScrollPane verify_coin_id_scp;
     private javax.swing.JTextPane verify_coin_id_text;
+    private javax.swing.JPanel verify_failed;
+    private javax.swing.JLabel verify_failed_label1;
+    private javax.swing.JLabel verify_failed_label2;
+    private javax.swing.JButton verify_failed_menu_button;
     private javax.swing.JLabel verify_label;
     private javax.swing.JButton verify_menu_button;
+    private javax.swing.JPanel verify_successed;
+    private javax.swing.JLabel verify_successed_label1;
+    private javax.swing.JLabel verify_successed_label2;
+    private javax.swing.JButton verify_successed_menu_button;
     private javax.swing.JButton verify_verify_button;
     private javax.swing.JTextPane wallet_id_text;
     // End of variables declaration//GEN-END:variables
