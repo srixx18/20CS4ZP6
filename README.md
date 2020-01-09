@@ -63,14 +63,16 @@ To make sure that our c++ program does not get confused with tab and space, Visu
 3. under Solution Explorer, right click "DigitalLoyaltyMoney" and select "build"
 
 ### Project folder structure
-c++/DigitalLoyaltyMoney/  
-  DigitalLoyaltyMoney/  
-    Admin.cpp  
-    Admin.h  
-    DigitalLoyaltyMoney.vcxproj  
-    DigitalLoyaltyMoney.vcxproj.filters  
-    DigitalLoyaltyMoney.user  
-    Wallet.cpp  
-    Wallet.h  
-    main.cpp  
-  DigitalLoyaltyMoney.sln  
+<pre>
+c++/DigitalLoyaltyMoney/
+  DigitalLoyaltyMoney/
+    Admin.cpp
+    Admin.h
+    DigitalLoyaltyMoney.vcxproj
+    DigitalLoyaltyMoney.vcxproj.filters
+    DigitalLoyaltyMoney.user
+    Wallet.cpp
+    Wallet.h
+    main.cpp
+  DigitalLoyaltyMoney.sln
+</pre>
