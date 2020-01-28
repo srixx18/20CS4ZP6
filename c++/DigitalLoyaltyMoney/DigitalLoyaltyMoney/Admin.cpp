@@ -10,13 +10,30 @@ std::map<int, int> Admin::displayCoin()
 
 void Admin::randomSelection()
 {
+    for( int i = 0; i < 10; i = i + 1 ) {
+        randomSelectedKey[i] = rand();
+    }
+    return rand();
 }
 
 bool Admin::verifyDecryptedKey(Wallet wallet)
 {
-    return false;
+    for( int i = 0; i < 10; i = i + 1 ) {
+        if(randomSelectKey[i] == DECRYPT_M) {
+            if((wallet.mEncryptedKey - wallet.decryptedSelectedKey) != /*prime number factorization of wallet.mValues[i]*/) {
+                return false;
+            }
+        }
+        else if(randomSelectKey[i] == DECRYPT_MN) {
+            if((wallet.mnEncryptedKey - wallet.decryptedSelectedKey) != /*prime number factorization of wallet.mnValues[i]*/) {
+                return false;
+            }
+        }
+    }
+    return true;
 }
 
 void Admin::replaceCoin(int replacedID, int replacedValue)
 {
+    coinTable.at(replacedId) = replacedValue;
 }
