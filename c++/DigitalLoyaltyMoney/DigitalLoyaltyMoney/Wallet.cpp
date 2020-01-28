@@ -2,12 +2,14 @@
 #include <map>;
 #include <vector>;
 #include "Wallet.h";
+#include <iostream>;
 
 void Wallet::randomMgenerator()
 {
+    Admin a;
     for( int i = 0; i < 10; i = i + 1 ) {
         mValues[i] = rand(/*TODO: randomly big number*/);
-        mKey[i] = ;//TODO: prime number factorization of above
+        mKey[i] = a.primeFactorization(mValues[i]);
     }
 }
 
@@ -61,12 +63,25 @@ std::map<int, int> Wallet::displayCoin()
 
 bool Wallet::verify(int id)
 {
-    return false;
+    if(coinTable.count(id) == 0){ return false; }
+    randomMgenerate();
+    computeMN(coinTable.at(id));
+    encryptSecret();
+    Admin a;
+    a.randomSelection();
+    decryptSelectedKeys(a);
+    return a.verifyDecriptedKey(/*this wallet*/)
 }
 
 void Wallet::transferCoin(int id, int value, Wallet receiver)
 {
-    verify(id);
-    
-
+    if (!verify(id);){
+        cout << id << " is not found.";
+    }
+    else {
+        Admin a;
+        a.replaceCoin(id, value);
+        removeCoin(id);
+        receiver.addCoin(id, value, secret);
+    }
 }

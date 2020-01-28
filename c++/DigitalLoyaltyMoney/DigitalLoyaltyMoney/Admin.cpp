@@ -11,21 +11,20 @@ std::map<int, int> Admin::displayCoin()
 void Admin::randomSelection()
 {
     for( int i = 0; i < 10; i = i + 1 ) {
-        randomSelectedKey[i] = rand();
+        randomSelectedKey[i] = rand() % 2;
     }
-    return rand();
 }
 
 bool Admin::verifyDecryptedKey(Wallet wallet)
 {
     for( int i = 0; i < 10; i = i + 1 ) {
         if(randomSelectKey[i] == DECRYPT_M) {
-            if((wallet.mEncryptedKey - wallet.decryptedSelectedKey) != /*prime number factorization of wallet.mValues[i]*/) {
+            if((wallet.mEncryptedKey - wallet.decryptedSelectedKey) != primeFactorization(wallet.mValues[i])) {
                 return false;
             }
         }
         else if(randomSelectKey[i] == DECRYPT_MN) {
-            if((wallet.mnEncryptedKey - wallet.decryptedSelectedKey) != /*prime number factorization of wallet.mnValues[i]*/) {
+            if((wallet.mnEncryptedKey - wallet.decryptedSelectedKey) != primeFactorization(wallet.mnValues[i])) {
                 return false;
             }
         }
@@ -36,4 +35,20 @@ bool Admin::verifyDecryptedKey(Wallet wallet)
 void Admin::replaceCoin(int replacedID, int replacedValue)
 {
     coinTable.at(replacedId) = replacedValue;
+}
+
+int * primeFactorization(int number)
+{
+    std::list<int> factors;
+
+    for( int i = 2; i <= number/i; i++){
+        while(number%i==0){
+            number = number/i;
+            factors.push_back(i);
+        }
+    }
+
+    if (number > 1) {
+        factors.push_back(number);
+    }
 }
