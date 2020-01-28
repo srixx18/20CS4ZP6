@@ -2,12 +2,14 @@
 #include <map>;
 #include <vector>;
 #include "Wallet.h";
+#include <iostream>;
 
 void Wallet::randomMgenerator()
 {
+    Admin a;
     for( int i = 0; i < 10; i = i + 1 ) {
         mValues[i] = rand(/*TODO: randomly big number*/);
-        mKey[i] = ;//TODO: prime number factorization of above
+        mKey[i] = a.primeFactorization(mValues[i]);
     }
 }
 
@@ -74,7 +76,7 @@ bool Wallet::verify(int id)
 void Wallet::transferCoin(int id, int value, Wallet receiver)
 {
     if (!verify(id);){
-        return id+" is not found.";
+        cout << id << " is not found.";
     }
     else {
         Admin a;
