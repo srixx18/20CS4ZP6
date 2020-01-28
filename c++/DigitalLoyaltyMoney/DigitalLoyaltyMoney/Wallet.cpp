@@ -61,12 +61,25 @@ std::map<int, int> Wallet::displayCoin()
 
 bool Wallet::verify(int id)
 {
-    return false;
+    if(coinTable.count(id) == 0){ return false; }
+    randomMgenerate();
+    computeMN(coinTable.at(id));
+    encryptSecret();
+    Admin a;
+    a.randomSelection();
+    decryptSelectedKeys(a);
+    return a.verifyDecriptedKey(/*this wallet*/)
 }
 
 void Wallet::transferCoin(int id, int value, Wallet receiver)
 {
-    verify(id);
-    
-
+    if (!verify(id);){
+        return id+" is not found.";
+    }
+    else {
+        Admin a;
+        a.replaceCoin(id, value);
+        removeCoin(id);
+        receiver.addCoin(id, value, secret);
+    }
 }
