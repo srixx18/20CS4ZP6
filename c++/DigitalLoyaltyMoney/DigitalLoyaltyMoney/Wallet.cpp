@@ -8,8 +8,8 @@ void Wallet::randomMgenerator()
 {
     Admin a;
     for( int i = 0; i < 10; i = i + 1 ) {
-        mValues[i] = rand(/*TODO: randomly big number*/);
-        mKey[i] = a.primeFactorization(mValues[i]);
+        mValues[i] = rand() % 999 +99; //TODO: change to a larger generator
+        mKey[i] = &a.primeFactorization(mValues[i]);
     }
 }
 
@@ -24,9 +24,9 @@ void Wallet::computeMN(int n)
 void Wallet::encryptedSecret()
 {
     for( int i = 0; i < 10; i = i + 1 ) {
-        mKeyDecryptionVector[i] = rand(/*generated int array*/);
+        mKeyDecryptionVector[i] = rand() % 10 +1;
         mEncyrptedKey[i] = mKey[i] + mKeyDecryptionVector[i];
-        mnKeyDecryptionVector[i] = rand(/*generated int array*/);
+        mnKeyDecryptionVector[i] = rand() % 10 +1;
         mnEncryptedKey[i] = mnKey[i] + mnKeyDecryptionVector[i];
     }
 }
@@ -64,13 +64,14 @@ std::map<int, int> Wallet::displayCoin()
 bool Wallet::verify(int id)
 {
     if(coinTable.count(id) == 0){ return false; }
+
     randomMgenerate();
     computeMN(coinTable.at(id));
     encryptSecret();
     Admin a;
     a.randomSelection();
     decryptSelectedKeys(a);
-    return a.verifyDecriptedKey(/*this wallet*/)
+    return a.verifyDecriptedKey(this)
 }
 
 void Wallet::transferCoin(int id, int value, Wallet receiver)
