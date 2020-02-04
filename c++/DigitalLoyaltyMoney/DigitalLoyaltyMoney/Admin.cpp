@@ -15,7 +15,7 @@ void Admin::randomSelection()
     }
 }
 
-bool Admin::verifyDecryptedKey(Wallet wallet)
+bool Admin::verifyDecryptedKey(Wallet * wallet)
 {
     for( int i = 0; i < 10; i = i + 1 ) {
         if(randomSelectKey[i] == DECRYPT_M) {
@@ -42,7 +42,7 @@ int * primeFactorization(int number)
     std::list<int> factors;
 
     for( int i = 2; i <= number/i; i++){
-        while(number%i==0){
+        while(number % i == 0){
             number = number/i;
             factors.push_back(i);
         }
@@ -51,4 +51,5 @@ int * primeFactorization(int number)
     if (number > 1) {
         factors.push_back(number);
     }
+    return *factors;
 }
