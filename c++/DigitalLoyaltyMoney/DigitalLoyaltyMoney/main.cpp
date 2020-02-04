@@ -1,12 +1,12 @@
 // main.cpp : This file is used for testing.
-#pragma once
 #include <iostream>
-#include <cstdlib>;
-#include <map>;
-#include <list>;
-#include <vector>;
-#include <cmath>;
+#include <cstdlib>
+#include <map>
+#include <list>
+#include <vector>
+#include <cmath>
 #include "Wallet.h"
+#include "Admin.h"
 
 int main()
 {

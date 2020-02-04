@@ -1,7 +1,7 @@
-#include <cstdlib>;
-#include <map>;
-#include <vector>;
-#include "Admin.h";
+#include <cstdlib>
+#include <map>
+#include <vector>
+#include "Admin.h"
 
 std::map<int, int> Admin::displayCoin()
 {

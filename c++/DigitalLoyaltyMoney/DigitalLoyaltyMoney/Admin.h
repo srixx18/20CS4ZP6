@@ -1,16 +1,12 @@
 #ifndef ADMIN_H
 #define ADMIN_H
 
-#include <cstdlib>;
-#include <map>;
-#include <vector>;
+#include <cstdlib>
+#include <map>
+#include <vector>
 
 class Admin
 {
-    //default constructor
-    Admin()
-    {
-    }
 
 public:
     //variables

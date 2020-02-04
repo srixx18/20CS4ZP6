@@ -1,33 +1,30 @@
 #ifndef WALLET_H
 #define WALLET_H
 
-#include <cstdlib>;
-#include <map>;
-#include <vector>;
+#include <cstdlib>
+#include <map>
+#include <vector>
+
+//constant declaration
+const int DECRYPT_M = 0;
+const int DECRYPT_MN = 1;
+const int PNUM_SIZE = 7;
+const int SECURITY_LOOP = 10;
 
 class Wallet
 {
-    //default constructor
-    Wallet()
-    {
-
-    }
-
-    //constant declaration
-    const int DECRYPT_M = 0;
-    const int DECRYPT_MN = 1;
 
     //type declaration
     typedef std::vector<int> primeNumberExpo_t;
 
 private:
     //variables
-    int randomSelectedKey[10];
+    int randomSelectedKey[SECURITY_LOOP];
     std::map<int, primeNumberExpo_t> secretTable;
-    primeNumberExpo_t mKey[10];
-    primeNumberExpo_t mnKey[10];
-    primeNumberExpo_t mKeyDecryptionVector[10];
-    primeNumberExpo_t mnKeyDecryptionVector[10];
+    primeNumberExpo_t mKey[SECURITY_LOOP];
+    primeNumberExpo_t mnKey[SECURITY_LOOP];
+    primeNumberExpo_t mKeyDecryptionVector[SECURITY_LOOP];
+    primeNumberExpo_t mnKeyDecryptionVector[SECURITY_LOOP];
 
     //functions
     void randomSelection();
@@ -44,11 +41,11 @@ private:
 public:
     //variables
     std::map<int, int> coinTable;
-    int mValues[10];
-    int mnValues[10];
-    primeNumberExpo_t mEncryptedKey[10];
-    primeNumberExpo_t mnEncryptedKey[10];
-    primeNumberExpo_t decryptedSelectedKey[10];
+    int mValues[SECURITY_LOOP];
+    int mnValues[SECURITY_LOOP];
+    primeNumberExpo_t mEncryptedKey[SECURITY_LOOP];
+    primeNumberExpo_t mnEncryptedKey[SECURITY_LOOP];
+    primeNumberExpo_t decryptedSelectedKey[SECURITY_LOOP];
 
     //functions
     std::map<int, int> displayCoin();
