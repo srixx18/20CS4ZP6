@@ -1,29 +1,19 @@
 // main.cpp : This file is used for testing.
-#include <iostream>
-#include <cstdlib>
-#include <map>
-#include <list>
-#include <vector>
-#include <cmath>
-#include "Wallet.h"
-#include "Admin.h"
+#include "Service.h"
 
 int main()
 {
     //Output any message to the console
     std::cout << "---------start-----------\n";
-    Wallet w1, w2;
-    Admin a;
 
-    //add a new coin into the system
-    int coinID = 1;
-    w1.addCoin(coinID);
-    a.addCoin(coinID, w1.coinTable.at(coinID));
+    Service sev;
+    Admin admin;
+    Wallet w1;
+    Wallet w2;
 
-    //transfer coin
-    w1.removeCoin(coinID);
-    w2.addCoin(coinID);
-    a.replaceCoinVal(coinID, w2.coinTable.at(coinID));
+    sev.addNewCoin(admin, w1, 7);
+    std::cout << sev.verify(admin, w1, 7);
+    sev.transferCoin(admin, w1, w2, 7);
 
     std::cout << "\n---------end-----------\n";
 }
