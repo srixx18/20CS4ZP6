@@ -11,12 +11,18 @@ const int DECRYPT_MN = 1;
 const int PNUM_SIZE = 7;
 const int SECURITY_LOOP = 10;
 
+//type declaration
+typedef std::vector<int> primeNumberExpo_t;
+
+//struct declaration
+struct keyValuePair { 
+    primeNumberExpo_t key;
+    //TODO: type of value should be mpz_class
+    int value; 
+};
+
 class Wallet
 {
-
-    //type declaration
-    typedef std::vector<int> primeNumberExpo_t;
-
 private:
     //variables
     int randomSelectedKey[SECURITY_LOOP];
@@ -32,14 +38,17 @@ private:
     int primeMultiplication(std::vector<int> key, std::vector<int> decryptKey);
     int primeMultiplication(std::vector<int> key);
     void randomMGenerator();
-    void randomKeyGenerator(primeNumberExpo_t *key, int *value);
+    keyValuePair randomKeyGenerator();
+    //TODO: type of n should be mpz_class
     void computeMN(int n, primeNumberExpo_t nKey);
     void encryptedSecret();
     void decryptSelectedKeys();
 
 public:
     //variables
+    //TODO: should be a map of <int,mpz_class>
     std::map<int, int> coinTable;
+    //TODO: mValues and mnValues have type mpz_class
     int mValues[SECURITY_LOOP];
     int mnValues[SECURITY_LOOP];
     primeNumberExpo_t mEncryptedKey[SECURITY_LOOP];
@@ -47,9 +56,9 @@ public:
     primeNumberExpo_t decryptedSelectedKey[SECURITY_LOOP];
 
     //functions
+    //TODO: should return <int,mpz_class>
     std::map<int, int> displayCoin();
     bool verify(int id);
-    void transferCoin(int id, Wallet receiver);
     void addCoin(int id);
     void removeCoin(int id);
 };

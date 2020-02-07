@@ -14,7 +14,8 @@ public:
 
     //functions
     std::map<int, int> displayCoin();
-    void replaceCoin(int replacedID, int replacedValue);
+    void addCoin(int id, int val);
+    void replaceCoinVal(int replacedID, int replacedValue);
 };
 
 #endif //!ADMIN_H
