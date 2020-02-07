@@ -11,7 +11,6 @@ public:
     int randomSelectedKey[SECURITY_LOOP];
 
     //functions
-    std::map<int, int> Admin::displayCoin();
     void randomSelection();
     bool verifyDecryptedKey(int mValues[SECURITY_LOOP], primeNumberExpo_t mEncryptedKey[SECURITY_LOOP], 
                             primeNumberExpo_t decryptedSelectedKey[SECURITY_LOOP],

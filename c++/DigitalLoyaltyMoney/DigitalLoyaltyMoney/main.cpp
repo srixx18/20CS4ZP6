@@ -14,6 +14,7 @@ int main()
     sev.addNewCoin(admin, w1, 7);
     std::cout << sev.verify(admin, w1, 7);
     sev.transferCoin(admin, w1, w2, 7);
+    std::cout << sev.verify(admin, w2, 7);
 
     std::cout << "\n---------end-----------\n";
 }
