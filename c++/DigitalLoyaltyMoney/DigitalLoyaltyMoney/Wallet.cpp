@@ -1,88 +1,97 @@
-#include <cstdlib>;
-#include <map>;
-#include <vector>;
-#include "Wallet.h";
-#include <iostream>;
+#include "Wallet.h"
 
-void Wallet::randomMgenerator()
+//TODO: output should be mpz_class
+int Wallet::primeMultiplication(std::vector<int> key)
 {
-    Admin a;
-    for( int i = 0; i < 10; i = i + 1 ) {
-        mValues[i] = rand() % 999 +99; //TODO: change to a larger generator
-        mKey[i] = &a.primeFactorization(mValues[i]);
+    //TODO: given n is the size of the key, generate a list n of prime numbers
+    int tempPrimeNumList[PNUM_SIZE] = { 1,2,3,5,7,9,11 };
+    //TODO: type of val should be mpz_class
+    int val = 1;
+    for (int i = 0; i < PNUM_SIZE; i++)
+    {
+        //TODO: use GMP lib to add value into val
+        val = val * pow(tempPrimeNumList[i], key[i]);
+    }
+    return val;
+}
+
+void Wallet::randomMGenerator()
+{
+    for (int i = 0; i < SECURITY_LOOP; i = i + 1) {
+        keyValuePair temp = randomKeyGenerator();
+        mKey[i] = temp.key;
+        mValues[i] = temp.value;
     }
 }
 
-void Wallet::computeMN(int n)
+keyValuePair Wallet::randomKeyGenerator()
 {
-    for( int i = 0; i < 10; i = i + 1 ) {
+    keyValuePair result;
+    for (int i = 0; i < PNUM_SIZE; i++) {
+        //TODO:generated random value could be set to wider range
+        result.key.push_back(rand() % 2);
+    }
+    result.value = primeMultiplication(result.key);
+    return result;
+}
+
+//TODO: input should be mpz_class n
+void Wallet::computeMN(int id)
+{
+    int n = coinTable.at(id);
+    primeNumberExpo_t nKey = secretTable.at(id);
+    for (int i = 0; i < SECURITY_LOOP; i = i + 1) {
+        //TODO: use GMP lib to perform multiplication
         mnValues[i] = mValues[i] * n;
-        mnKey[i] = mKey[i] + secretTable.at(n);
+        for (int j = 0; j < PNUM_SIZE; j = j + 1)
+        {
+            mnKey[i].push_back(mKey[i].at(j) + nKey.at(j));
+        }
     }
 }
 
 void Wallet::encryptedSecret()
 {
-    for( int i = 0; i < 10; i = i + 1 ) {
-        mKeyDecryptionVector[i] = rand() % 10 +1;
-        mEncyrptedKey[i] = mKey[i] + mKeyDecryptionVector[i];
-        mnKeyDecryptionVector[i] = rand() % 10 +1;
-        mnEncryptedKey[i] = mnKey[i] + mnKeyDecryptionVector[i];
+    for( int i = 0; i < SECURITY_LOOP; i = i + 1 ) {
+        for (int j = 0; j < PNUM_SIZE; j = j + 1)
+        {
+            //TODO:generated random value could be set to wider range
+            mKeyDecryptionVector[i].push_back(rand() % 2);
+            mnKeyDecryptionVector[i].push_back(rand() % 2);
+            mEncryptedKey[i].push_back(mKey[i].at(j) + mKeyDecryptionVector[i].at(j));
+            mnEncryptedKey[i].push_back(mnKey[i].at(j) + mnKeyDecryptionVector[i].at(j));
+        }
     }
 }
 
-void Wallet::decryptSelectedKeys()
+void Wallet::decryptSelectedKeys(int randomSelectedKey[SECURITY_LOOP])
 {
-    for( int i = 0; i < 10; i = i + 1 ) {
-        Admin admin;
-        if(admin.randomeSelectedKey[i] == admin.DECRYPT_M){
+    for( int i = 0; i < SECURITY_LOOP; i = i + 1 ) {
+        if(randomSelectedKey[i] == DECRYPT_M){
             decryptedSelectedKey[i] = mKeyDecryptionVector[i];
         }
-        else if(admin.randomeSelectedKey[i] == admin.DECRYPT_MN){
+        else if(randomSelectedKey[i] == DECRYPT_MN){
             decryptedSelectedKey[i] = mnKeyDecryptionVector[i];
         }
     }
 }
 
-void Wallet::addCoin(int id, int value, primeNumberExpo_t secret)
+void Wallet::addCoin(int id)
 {
-    coinTable.insert( std::pair<int,int>(id, value) );
-    secretTable.insert( std::pair<int,primeNumberExpo_t>(id, secret) );
+    primeNumberExpo_t key;
+    int value;
+    keyValuePair res = randomKeyGenerator();
+    coinTable.insert(std::pair<int,int>(id, res.value));
+    secretTable.insert(std::pair<int,primeNumberExpo_t>(id, res.key));
 }
 
 void Wallet::removeCoin(int id)
 {
     coinTable.erase(id);
-    secretTable.erase(id)
+    secretTable.erase(id);
 }
 
 std::map<int, int> Wallet::displayCoin()
 {
     return coinTable;
-}
-
-bool Wallet::verify(int id)
-{
-    if(coinTable.count(id) == 0){ return false; }
-
-    randomMgenerate();
-    computeMN(coinTable.at(id));
-    encryptSecret();
-    Admin a;
-    a.randomSelection();
-    decryptSelectedKeys(a);
-    return a.verifyDecriptedKey(this)
-}
-
-void Wallet::transferCoin(int id, int value, Wallet receiver)
-{
-    if (!verify(id);){
-        cout << id << " is not found.";
-    }
-    else {
-        Admin a;
-        a.replaceCoin(id, value);
-        removeCoin(id);
-        receiver.addCoin(id, value, secret);
-    }
 }

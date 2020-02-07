@@ -40,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -149,10 +149,13 @@
   <ItemGroup>
     <ClCompile Include="Admin.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Service.cpp" />
     <ClCompile Include="Wallet.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Admin.h" />
+    <ClInclude Include="Constant.h" />
+    <ClInclude Include="Service.h" />
     <ClInclude Include="Wallet.h" />
   </ItemGroup>
   <ItemGroup>
