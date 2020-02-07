@@ -26,7 +26,7 @@ public:
     void randomMGenerator();
     keyValuePair randomKeyGenerator();
     //TODO: type of n should be mpz_class
-    void computeMN(int n, primeNumberExpo_t nKey);
+    void computeMN(int id);
     void encryptedSecret();
     void decryptSelectedKeys(int randomSelectedKey[SECURITY_LOOP]);
     //TODO: should return <int,mpz_class>

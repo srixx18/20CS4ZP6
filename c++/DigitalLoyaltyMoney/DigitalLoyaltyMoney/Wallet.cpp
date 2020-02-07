@@ -36,8 +36,10 @@ keyValuePair Wallet::randomKeyGenerator()
 }
 
 //TODO: input should be mpz_class n
-void Wallet::computeMN(int n, primeNumberExpo_t nKey)
+void Wallet::computeMN(int id)
 {
+    int n = coinTable.at(id);
+    primeNumberExpo_t nKey = secretTable.at(id);
     for (int i = 0; i < SECURITY_LOOP; i = i + 1) {
         //TODO: use GMP lib to perform multiplication
         mnValues[i] = mValues[i] * n;

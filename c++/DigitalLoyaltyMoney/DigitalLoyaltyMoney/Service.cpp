@@ -9,7 +9,7 @@ bool Service::verify(Admin admin, Wallet wallet, int id)
     else
     {
         wallet.randomMGenerator();
-        wallet.computeMN(wallet.coinTable.at(id), wallet.secretTable.at(id));
+        wallet.computeMN(id);
         wallet.encryptedSecret();
         admin.randomSelection();
         wallet.decryptSelectedKeys(admin.randomSelectedKey);
