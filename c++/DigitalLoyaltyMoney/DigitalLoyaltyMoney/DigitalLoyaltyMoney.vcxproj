@@ -158,6 +158,10 @@
     <ClInclude Include="Service.h" />
     <ClInclude Include="Wallet.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Coin.cpp" />
+    <None Include="Coin.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
