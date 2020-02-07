@@ -11,11 +11,8 @@
 int main()
 {
     //Output any message to the console
-    std::cout << "---------start-----------";
-
-    for (int i = 0; i < 10; i = i + 1) {
-        std::cout << rand() % 5;
-    }
-
-    std::cout << "---------end-----------";
+    std::cout << "---------start-----------\n";
+    Wallet w;
+    w.addCoin(1);
+    std::cout << "\n---------end-----------\n";
 }

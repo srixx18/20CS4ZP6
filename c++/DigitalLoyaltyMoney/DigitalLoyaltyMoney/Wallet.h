@@ -31,12 +31,11 @@ private:
     bool verifyDecryptedKey();
     int primeMultiplication(std::vector<int> key, std::vector<int> decryptKey);
     int primeMultiplication(std::vector<int> key);
-    void randomMgenerator();
+    void randomMGenerator();
+    void randomKeyGenerator(primeNumberExpo_t *key, int *value);
     void computeMN(int n, primeNumberExpo_t nKey);
     void encryptedSecret();
     void decryptSelectedKeys();
-    void addCoin(int id, int value, primeNumberExpo_t secret);
-    void removeCoin(int id);
 
 public:
     //variables
@@ -50,7 +49,9 @@ public:
     //functions
     std::map<int, int> displayCoin();
     bool verify(int id);
-    void transferCoin(int id, int value, Wallet receiver);
+    void transferCoin(int id, Wallet receiver);
+    void addCoin(int id);
+    void removeCoin(int id);
 };
 
 #endif //!ELEMENT_H

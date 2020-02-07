@@ -59,16 +59,20 @@ void Wallet::randomSelection()
     }
 }
 
-void Wallet::randomMgenerator()
+void Wallet::randomMGenerator()
 {
     for (int i = 0; i < SECURITY_LOOP; i = i + 1) {
-        //TODO:mKey[i] should have more random length other than 7
-        for (int i = 0; i < PNUM_SIZE; i++) {
-            //TODO:generated random value could be set to wider range
-            mKey[i].push_back(rand() % 2);
-        }
-        mValues[i] = primeMultiplication(mKey[i]);
+        randomKeyGenerator(&mKey[i], &mValues[i]);
     }
+}
+
+void Wallet::randomKeyGenerator(primeNumberExpo_t *key, int *value)
+{
+    for (int i = 0; i < PNUM_SIZE; i++) {
+        //TODO:generated random value could be set to wider range
+        *key[i].push_back(rand() % 2);
+    }
+    *value = primeMultiplication(key);
 }
 
 //TODO: input should be mpz_class n
@@ -86,30 +90,71 @@ void Wallet::computeMN(int n, primeNumberExpo_t nKey)
 
 void Wallet::encryptedSecret()
 {
+    for( int i = 0; i < SECURITY_LOOP; i = i + 1 ) {
+        for (int j = 0; j < PNUM_SIZE; j = j + 1)
+        {
+            //TODO:generated random value could be set to wider range
+            mKeyDecryptionVector[i].push_back(rand() % 2);
+            mnKeyDecryptionVector[i].push_back(rand() % 2);
+        }
+        for (int j = 0; j < PNUM_SIZE; j = j + 1)
+        {
+            mEncryptedKey[i].at(j) = mKey[i].at(j) + mKeyDecryptionVector.at(j);
+            mnEncryptedKey[i].at(j) = mnKey[i].at(j) + mnKeyDecryptionVector.at(j);
+        }
+    }
 }
 
 void Wallet::decryptSelectedKeys()
 {
+    for( int i = 0; i < SECURITY_LOOP; i = i + 1 ) {
+        if(randomSelectedKey[i] == DECRYPT_M){
+            decryptedSelectedKey[i] = mKeyDecryptionVector[i];
+        }
+        else if(randomSelectedKey[i] == DECRYPT_MN){
+            decryptedSelectedKey[i] = mnKeyDecryptionVector[i];
+        }
+    }
 }
 
-void Wallet::addCoin(int id, int value, primeNumberExpo_t secret)
+void Wallet::addCoin(int id)
 {
+    //TODO:broadcast admin to update coin info (id,value)!!
+    primeNumberExpo_t key;
+    int value;
+    randomKeyGenerator(&key, &value);
+    coinTable.insert(std::pair<int,int>(id, value));
+    secretTable.insert(std::pair<int,primeNumberExpo_t>(id, key));
 }
 
 void Wallet::removeCoin(int id)
 {
+    coinTable.erase(id);
+    secretTable.erase(id)
 }
 
 std::map<int, int> Wallet::displayCoin()
 {
-    return std::map<int, int>();
+    return coinTable;
 }
 
 bool Wallet::verify(int id)
 {
-    return false;
+    if(coinTable.count(id) == 0){ return false; }
+
+    randomMGenerator();
+    computeMN(coinTable.at(id), secretTable.at(id));
+    encryptedSecret();
+    randomSelection();
+    decryptSelectedKeys(a);
+    return verifyDecryptedKey()
 }
 
-void Wallet::transferCoin(int id, int value, Wallet receiver)
+void Wallet::transferCoin(int id, Wallet receiver)
 {
+    //TODO: report error if we cannot verify
+    if (verify(id)){
+        removeCoin(id);
+        receiver.addCoin(id);
+    }
 }
