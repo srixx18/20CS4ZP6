@@ -31,6 +31,10 @@ int Admin::primeMultiplication(std::vector<int> key, std::vector<int> decryptKey
     return val;
 }
 
+Admin::Admin()
+{
+}
+
 void Admin::randomSelection()
 {
     for (int i = 0; i < SECURITY_LOOP; i = i + 1) {

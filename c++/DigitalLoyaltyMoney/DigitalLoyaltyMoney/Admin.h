@@ -6,6 +6,9 @@
 class Admin
 {
 public:
+    //constructor
+    Admin();
+
     //variables
     std::map<int, int> coinTable;
     int randomSelectedKey[SECURITY_LOOP];

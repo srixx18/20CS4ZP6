@@ -1,5 +1,9 @@
 #include "Wallet.h"
 
+Wallet::Wallet()
+{
+}
+
 //TODO: output should be mpz_class
 int Wallet::primeMultiplication(std::vector<int> key)
 {

@@ -6,6 +6,9 @@
 class Wallet
 {
 public:
+    //constructor
+    Wallet();
+
     //variables
     std::map<int, primeNumberExpo_t> secretTable;
     primeNumberExpo_t mKey[SECURITY_LOOP];

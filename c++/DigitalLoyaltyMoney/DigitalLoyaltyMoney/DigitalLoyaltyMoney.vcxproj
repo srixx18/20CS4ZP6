@@ -148,13 +148,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Admin.cpp" />
+    <ClCompile Include="Admin_Wrapper.cpp" />
+    <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pch.cpp" />
     <ClCompile Include="Service.cpp" />
     <ClCompile Include="Wallet.cpp" />
+    <ClCompile Include="Wallet_Wrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Admin.h" />
     <ClInclude Include="Constant.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="pch.h" />
     <ClInclude Include="Service.h" />
     <ClInclude Include="Wallet.h" />
   </ItemGroup>
