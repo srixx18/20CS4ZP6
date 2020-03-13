@@ -1,4 +1,6 @@
+#include "pch.h"
 #include "Util.h"
+
 uchar Util::get_left(uchar x) {
     // get left halfbyte of x
     return x >> 4;

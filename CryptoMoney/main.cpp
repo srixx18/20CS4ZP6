@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "main.h"
 
 Mint* Wallet::mint = new Mint();

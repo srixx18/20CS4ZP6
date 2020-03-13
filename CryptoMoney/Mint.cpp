@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Coin.cpp"
 // classes Mint and Walet need for communication some stuff from class Comm,
 // and some stuff from Mint and Wallet are needed for implementation of Comm
