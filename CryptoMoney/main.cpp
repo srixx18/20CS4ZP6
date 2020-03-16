@@ -39,6 +39,7 @@ int main() {
 DLL_EXPORT Wallet* init_wallet()
 {
     Wallet* w1 = new Wallet();
+    fflush(stdout);
     return w1;
 }
 
@@ -47,10 +48,12 @@ DLL_EXPORT void show_mint(Wallet* w, bool mini)
     if (mini)
     {
         w->mint->minishow();
+        fflush(stdout);
     }
     else
     {
         w->mint->show();
+        fflush(stdout);
     }
 }
 
@@ -59,24 +62,29 @@ DLL_EXPORT void show_wallet(Wallet* w, bool mini)
     if (mini)
     {
         w->minishow();
+        fflush(stdout);
     }
     else
     {
         w->show();
+        fflush(stdout);
     }
 }
 
 DLL_EXPORT void verify(Wallet* w, int id)
 {
     w->request_verify_ownership(id);
+    fflush(stdout);
 }
 
 DLL_EXPORT void transfer(Wallet* sender, Wallet* recv)
 {
     sender->transfer_coin(recv);
+    fflush(stdout);
 }
 
 DLL_EXPORT void transfer_fake(Wallet* sender, Wallet* recv)
 {
     sender->transfer_fake_coin(recv);
+    fflush(stdout);
 }
