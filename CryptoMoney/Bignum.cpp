@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Bignum.h"
+#include <iostream>
 /* *******************************************************************************
  *                        class Bignum
  ********************************************************************************* */
@@ -232,24 +233,28 @@ BigNum& BigNum::operator=(unsigned long x) {
     void BigNum::show(char term) {
         Util util;
         if (len == 0) {
-            printf("0%c", term);
+            std::cout << "0" << std::endl;
+            //printf("0%c", term);
             return;
         }
         for (long i = len - 1; i >= 0; i--)
             util.showrbyte(body[i]);
+        std::cout << std::endl;
         putchar(term);
     }//end show
 
     void BigNum::minishow(char term) {
         Util util;
         if (len == 0) {
-            printf("0%c", term);
+            std::cout << "0" << std::endl;
+            //printf("0%c", term);
             return;
         }
         long i, j = 0;
         for (i = len - 1, j = 0; i >= 0 && j < 16; i--, j += 2)
             util.showrbyte(body[i]);
-        printf("...%c", term);
+        std::cout << "..." << std::endl;
+        //printf("...%c", term);
     }//end minishow
 
     // this = this + x

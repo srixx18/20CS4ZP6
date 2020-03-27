@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Bignum.h"
+#include <iostream>
 
 /* *******************************************************************************
  *                        class Vector
@@ -123,8 +124,10 @@ public:
 
     void show(char term = ' ') {
         for (long i = 0; i < vlen; i++)
-            printf("%lu ", vector[i]);
+            std::cout << vector[i] << " ";
+            //printf("%lu ", vector[i]);
         if (term == '\n')
+            std::cout << std::endl;
             putchar('\n');
     }//end show
 

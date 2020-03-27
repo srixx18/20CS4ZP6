@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "main.h"
+#include <sstream>
+#include <iostream>
 
 Mint* Wallet::mint = new Mint();
 long Mint::last_id = 0;
@@ -43,48 +45,82 @@ DLL_EXPORT Wallet* init_wallet()
     return w1;
 }
 
-DLL_EXPORT void show_mint(Wallet* w, bool mini)
+DLL_EXPORT char* show_mint(Wallet* w, bool mini)
 {
+    std::stringbuf sbuf(std::ios::out);
+    auto oldbuf = std::cout.rdbuf(std::addressof(sbuf));
     if (mini)
     {
         w->mint->minishow();
-        fflush(stdout);
     }
     else
     {
         w->mint->show();
-        fflush(stdout);
     }
+    std::cout.rdbuf(oldbuf);
+    std::string output = sbuf.str();
+    char* cstr = new char[output.length() + 1];
+    strcpy_s(cstr, output.length() + 1, output.c_str());
+    return cstr;
 }
 
-DLL_EXPORT void show_wallet(Wallet* w, bool mini)
+DLL_EXPORT char* show_wallet(Wallet* w, bool mini)
 {
+    std::stringbuf sbuf(std::ios::out);
+    auto oldbuf = std::cout.rdbuf(std::addressof(sbuf));
     if (mini)
     {
         w->minishow();
-        fflush(stdout);
     }
     else
     {
         w->show();
-        fflush(stdout);
     }
+    std::cout.rdbuf(oldbuf);
+    std::string output = sbuf.str();
+    char* cstr = new char[output.length() + 1];
+    strcpy_s(cstr, output.length() + 1, output.c_str());
+    return cstr;
 }
 
-DLL_EXPORT void verify(Wallet* w, int id)
+DLL_EXPORT char* verify(Wallet* w, int id)
 {
+    std::stringbuf sbuf(std::ios::out);
+    auto oldbuf = std::cout.rdbuf(std::addressof(sbuf));
+
     w->request_verify_ownership(id);
-    fflush(stdout);
+    
+    std::cout.rdbuf(oldbuf);
+    std::string output = sbuf.str();
+    char* cstr = new char[output.length() + 1];
+    strcpy_s(cstr, output.length() + 1, output.c_str());
+    return cstr;
 }
 
-DLL_EXPORT void transfer(Wallet* sender, Wallet* recv)
+DLL_EXPORT char* transfer(Wallet* sender, Wallet* recv)
 {
+    std::stringbuf sbuf(std::ios::out);
+    auto oldbuf = std::cout.rdbuf(std::addressof(sbuf));
+
     sender->transfer_coin(recv);
-    fflush(stdout);
+    
+    std::cout.rdbuf(oldbuf);
+    std::string output = sbuf.str();
+    char* cstr = new char[output.length() + 1];
+    strcpy_s(cstr, output.length() + 1, output.c_str());
+    return cstr;
 }
 
-DLL_EXPORT void transfer_fake(Wallet* sender, Wallet* recv)
+DLL_EXPORT char* transfer_fake(Wallet* sender, Wallet* recv)
 {
+    std::stringbuf sbuf(std::ios::out);
+    auto oldbuf = std::cout.rdbuf(std::addressof(sbuf));
+
     sender->transfer_fake_coin(recv);
-    fflush(stdout);
+    
+    std::cout.rdbuf(oldbuf);
+    std::string output = sbuf.str();
+    char* cstr = new char[output.length() + 1];
+    strcpy_s(cstr, output.length() + 1, output.c_str());
+    return cstr;
 }

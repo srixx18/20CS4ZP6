@@ -64,14 +64,16 @@ public:
 
     void show() {
         if (coins == 0)
-            printf("empty\n");
+            std::cout << "empty" << std::endl;
+            //printf("empty\n");
         else
             coins->show(true);
     }//end show
 
     void minishow() {
         if (coins == 0)
-            printf("empty\n");
+            std::cout << "empty" << std::endl;
+            //printf("empty\n");
         else
             coins->show(false);
     }//end show

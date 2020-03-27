@@ -71,17 +71,21 @@ public:
     ~Wallet() { if (coins) delete coins; }
 
     void show() {
-        printf("wallet %u:\n", walletid);
+        std::cout << "wallet" << walletid << std::endl;
+        //printf("wallet %u:\n", walletid);
         if (coins == 0)
-            printf("empty\n");
+            std::cout << "empty" << std::endl;
+            //printf("empty\n");
         else
             coins->show(true);
     }//end show
 
     void minishow() {
-        printf("wallet %u\n", walletid);
+        std::cout << "wallet " << walletid << std::endl;
+        //printf("wallet %u\n", walletid);
         if (coins == 0)
-            printf("empty\n");
+            std::cout << "empty" << std::endl;
+            //printf("empty\n");
         else
             coins->show(false);
     }//end minishow
@@ -150,14 +154,18 @@ public:
         init();
         w->init();
         wC = new Comm(this, w);  // communication object
-        sprintf_s(wpartner, "wallet %d", w->walletid);
+        std::cout << wpartner << "wallet " << w->walletid << std::endl;
+        //sprintf_s(wpartner, "wallet %d", w->walletid);
         Message m;
         m.x_code = Message::x_start;
-        sprintf_s(m.message, "wallet %d", walletid);  // so the wallet w knows who it is talking to
+        std::cout << m.message << "wallet " << walletid << std::endl;
+        //sprintf_s(m.message, "wallet %d", walletid);  // so the wallet w knows who it is talking to
         wdialogue_coinid = coins->root->coinid;
         if (wdialogue_secret) delete wdialogue_secret;
         wdialogue_secret = coins->root->secret;
-        printf("wallet %d: sent x_start to %s to start coin transfer", walletid, wpartner);
+        std::cout << "wallet " << walletid << ":sent x_start to " << wpartner << " to start coin transfer";
+        //printf("wallet %d: sent x_start to %s to start coin transfer", walletid, wpartner);
+        std::cout << std::endl;
         util.GETCHAR();
         wylast_x_code = Message::x_start;
         wylast_y_code = Message::y_none;
@@ -370,14 +378,18 @@ public:
         init();
         if (mC) delete mC;
         mC = new Comm(this, mint);  // communication object
-        sprintf_s(mpartner, "mint");
+        std::cout << mpartner << "mint" << std::endl;
+        //sprintf_s(mpartner, "mint");
         Message m;
         m.x_code = Message::x_start;
-        sprintf_s(m.message, "wallet %d", walletid);  // so the Mint knows who it is talking to
+        std::cout << m.message << "wallet " << walletid << std::endl;
+        //sprintf_s(m.message, "wallet %d", walletid);  // so the Mint knows who it is talking to
         mdialogue_type = Message::y_verify_ownership;
         mdialogue_coin = find_coin(coinid);
         if (mdialogue_coin == NULL) {
-            printf("wallet %d: coin %d do not exist", walletid, coinid);
+            std::cout << "wallet " << walletid << ": coin " << coinid << " do not exist";
+            //printf("wallet %d: coin %d do not exist", walletid, coinid);
+            std::cout << std::endl;
             util.GETCHAR();
             mylast_x_code = Message::x_none;
             mylast_y_code = Message::y_none;
@@ -386,7 +398,9 @@ public:
         else {
             if (mdialogue_secret) delete mdialogue_secret;
             mdialogue_secret = 0;
-            printf("wallet %d: sent x_start to mint", walletid);
+            std::cout << "wallet " << walletid << " send x_start to mint";
+            //printf("wallet %d: sent x_start to mint", walletid);
+            std::cout << std::endl;
             util.GETCHAR();
             mylast_x_code = Message::x_start;
             mylast_y_code = Message::y_none;

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Util.h"
+#include <iostream>
 
 uchar Util::get_left(uchar x) {
     // get left halfbyte of x
@@ -64,16 +65,21 @@ void Util::GETCHAR() { putchar('\n'); }
 void Util::showrbyte(uchar x, char term) {
     uchar z = get_right(x);
     if (z < 10)
-        printf("%c", '0' + z);
+        std::cout << '0' + z;
+        //printf("%c", '0' + z);
     else
-        printf("%c", 'A' + z - 10);
+        std::cout << 'A' + z - 10;
+        //printf("%c", 'A' + z - 10);
     z = get_left(x);
     if (z < 10)
-        printf("%c", '0' + z);
+        std::cout << '0' + z;
+        //printf("%c", '0' + z);
     else
-        printf("%c", 'A' + z - 10);
+        std::cout << 'A' + z - 10;
+        //printf("%c", 'A' + z - 10);
     if (term == '\n')
-        printf("%c", term);
+        std::cout << std::endl;
+        //printf("%c", term);
 }//end showrbyte
 
 

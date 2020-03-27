@@ -12,7 +12,23 @@ package com.ec.jna;
 public class JNATest {
     
     public static void main(String[] args) {
+        String output;
+        
+        WalletHandler wallet1 = new WalletHandler();
+        WalletHandler wallet2 = new WalletHandler();
+//        output = wallet.showWallet(false);
+//        System.out.println(output);
+
+//        output = wallet1.transfer(wallet2.wallet);
+//        System.out.println(output);
+
+        output = wallet1.transferFakse(wallet2.wallet);
+        System.out.println(output);
+        
         AdminHandler admin = new AdminHandler();
-        admin.showMint(false);
+//        output = admin.showMint(false);
+//        System.out.println(output);
+        
+        
     }
 }

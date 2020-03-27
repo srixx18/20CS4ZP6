@@ -25,8 +25,8 @@ public class AdminHandler {
         // constructor
         Pointer init_wallet();
 
-        // void
-        void show_mint(Pointer wallet, Boolean mini);
+        // String
+        String show_mint(Pointer wallet, Boolean mini);
     }
 
     Pointer admin;
@@ -36,7 +36,7 @@ public class AdminHandler {
         admin = JNA.INSTANCE.init_wallet();
     }
 
-    public void showMint(Boolean mini) {
-        JNA.INSTANCE.show_mint(admin, mini);
+    public String showMint(Boolean mini) {
+        return JNA.INSTANCE.show_mint(admin, mini);
     }
 }

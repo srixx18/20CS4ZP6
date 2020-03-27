@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Vector.cpp"
+#include <iostream>
 /* *******************************************************************************
  *                        class Coin
  ********************************************************************************** */
@@ -23,7 +24,8 @@ public:
     ~Coin() { if (secret) delete secret; }
 
     void show(bool kind = true) {
-        printf("%d,", coinid);
+        std::cout << coinid;
+        //printf("%d,", coinid);
         if (kind)
             secret->show('\n');
         else
@@ -100,7 +102,8 @@ public:
     ~CoinMnode() { if (coin) delete coin; }
 
     void show(bool kind = true) {
-        printf("coin: ");
+        std::cout << "coin :";
+        //printf("coin: ");
         coin->show(kind);
     }//end show
 };//end class CoinMnode
@@ -155,7 +158,8 @@ public:
 
     void show(bool kind = true) {
         if (root == 0)
-            printf("empty\n");
+            std::cout << "empty" << std::endl;
+            //printf("empty\n");
         else
             for (CoinMnode* p = root; p != 0; p = p->next)
                 p->show(kind);
@@ -183,15 +187,18 @@ public:
     ~CoinWnode() { delete secret; delete vector; }
 
     void show(bool kind = true) {
-        printf("coin: %u,", coinid);
+        std::cout << "coin: " << coinid << std::endl;
+        //printf("coin: %u,", coinid);
         if (kind) {
+            std::cout << std::endl;
             putchar('\n');
             secret->show('\n');
         }
         else
             secret->minishow('\n');
         if (kind) {
-            printf("   ");
+            std::cout << "   " << std::endl;
+            //printf("   ");
             vector->show('\n');
         }
     }//end show
@@ -231,7 +238,8 @@ public:
 
     void show(bool kind = true) {
         if (root == 0)
-            printf("empty\n");
+            std::cout << "empty" << std::endl;
+            //printf("empty\n");
         else {
             for (CoinWnode* p = root; p != 0; p = p->next)
                 p->show(kind);
