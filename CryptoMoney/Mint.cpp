@@ -132,7 +132,8 @@ public:
     void change_secret(long coinid, BigNum* newsecret) {
         CoinMnode* p = find(coinid);
         if (p == 0) {
-            printf("Mint: interanl error\n");
+            std::cout << "Mint: interanl error" << std::endl;
+            //printf("Mint: interanl error\n");
             exit(0);
         }
         *(p->coin->secret) = *newsecret;
@@ -153,6 +154,15 @@ public:
 
         if (m.x_code == Message::x_start) {
             strcpy_s(partner, m.message); // who I am talking too
+            std::cout << "mint: ";
+            for (int i = 0; i < strlen(partner); i++) {
+              std::cout << partner[i];
+            } 
+            std::cout << " initialized mdialogue, sending x_ok to "; 
+            for (int i = 0; i < strlen(partner); i++) {
+              std::cout << partner[i];
+            } 
+            std::cout << std::endl;
             printf("mint: %s initialized mdialogue, sending x_ok to %s", partner, partner);
             util.GETCHAR();
             res = false;
@@ -171,7 +181,8 @@ public:
         }//end of x_start
 
         if (m.x_code == Message::x_hup) {
-            printf("mint: received x_hup, hanging up");
+            std::cout << "mint: received x_hup, hanging up" << std::endl;
+            //printf("mint: received x_hup, hanging up");
             util.GETCHAR();
             mylast_x_code = Message::x_none;
             mylast_y_code = Message::y_none;
@@ -182,7 +193,8 @@ public:
             if (m.y_code == Message::y_change_secret) {
                 if (mylast_x_code != Message::x_ok || protocol_type != 0) {
                     // protocol fault
-                    printf("mint: protocol fault, hanging up");
+                    std::cout << "mint: protocol fault, hanging up" << std::endl;
+                    //printf("mint: protocol fault, hanging up");
                     util.GETCHAR();
                     mylast_x_code = Message::x_none;
                     mylast_y_code = protocol_type = Message::y_none;
@@ -198,8 +210,16 @@ public:
                 m.y_code = Message::y_zk_info;
                 mylast_x_code = Message::x_message;
                 mylast_y_code = Message::y_zk_info;
-                printf("mint: received request for change_secret for coin %d from %s, sending request for zk_info to %s",
-                    coinid, partner, partner);
+                std::cout << "mint: received request for change_secret for coin " << coinid << " from ";
+                for (int i = 0; i < strlen(partner); i++) {
+                  std::cout << partner[i];
+                } 
+                std::cout << ", sending request for zk_info to ";
+                for (int i = 0; i < strlen(partner); i++) {
+                  std::cout << partner[i];
+                } 
+                std::cout << std::endl;
+                //printf("mint: received request for change_secret for coin %d from %s, sending request for zk_info to %s", coinid, partner, partner);
                 util.GETCHAR();
                 return m;
             }//end of y_change_secret
@@ -207,7 +227,8 @@ public:
             if (m.y_code == Message::y_verify_ownership) {
                 if (mylast_x_code != Message::x_ok || protocol_type != 0) {
                     // protocol fault
-                    printf("mint: protocol fault, hanging up");
+                    std::cout << "mint: protocol fault, hanging up" << std::endl;
+                    //printf("mint: protocol fault, hanging up");
                     util.GETCHAR();
                     mylast_x_code = Message::x_none;
                     mylast_y_code = protocol_type = Message::y_none;
@@ -222,8 +243,16 @@ public:
                 m.y_code = Message::y_zk_info;
                 mylast_x_code = Message::x_message;
                 mylast_y_code = Message::y_zk_info;
-                printf("mint: received request to verify_ownership of coin %d from %s, sending request for zk_info to %s",
-                    coinid, partner, partner);
+                std::cout << "mint: received request to verify_ownership of coin " << coinid << " from ";
+                for (int i = 0; i < strlen(partner); i++) {
+                  std::cout << partner[i];
+                } 
+                std::cout << ", sending request for zk_info to ";
+                for (int i = 0; i < strlen(partner); i++) {
+                  std::cout << partner[i];
+                } 
+                std::cout << std::endl;
+                //printf("mint: received request to verify_ownership of coin %d from %s, sending request for zk_info to %s", coinid, partner, partner);
                 util.GETCHAR();
                 return m;
             }//end verify_ownership
@@ -237,12 +266,22 @@ public:
                     put_zk_challenge_in_message(m, zk_info, zk_challenge);
                     m.x_code = mylast_x_code = Message::x_message;
                     m.y_code = mylast_y_code = Message::y_zk_challenge;
-                    printf("mint: received zk_info foc coind %d from %s, sending zk_challenge to %s", coinid, partner, partner);
+                    std::cout << "mint: received zk_info foc coind " << coinid << " from ";
+                    for (int i = 0; i < strlen(partner); i++) {
+                      std::cout << partner[i];
+                    } 
+                    std::cout << ", sending zk_challenge to ";
+                    for (int i = 0; i < strlen(partner); i++) {
+                      std::cout << partner[i];
+                    } 
+                    std::cout << std::endl;
+                    //printf("mint: received zk_info foc coind %d from %s, sending zk_challenge to %s", coinid, partner, partner);
                     util.GETCHAR();
                     return m;
                 }
                 else {
                     // protocol fault
+                    std::cout << "mint: protocol fault, hanging up" << std::endl;
                     printf("mint: protocol fault, hanging up");
                     util.GETCHAR();
                     mylast_x_code = Message::x_none;
@@ -267,8 +306,16 @@ public:
                             m.y_code = Message::y_secret_changed;
                             mylast_x_code = Message::x_none;
                             mylast_y_code = protocol_type = Message::y_none;
-                            printf("mint: received y_zk_challenge for coin %d from %s, sending y_secret_changed to %s, hanging up",
-                                coinid, partner, partner);
+                            std::cout << "mint: received y_zk_challenge for coin " << coinid << " from ";
+                            for (int i = 0; i < strlen(partner); i++) {
+                              std::cout << partner[i];
+                            } 
+                            std::cout << ", sending y_secret_changed to ";
+                            for (int i = 0; i < strlen(partner); i++) {
+                              std::cout << partner[i];
+                            } 
+                            std::cout << std::endl;
+                            //printf("mint: received y_zk_challenge for coin %d from %s, sending y_secret_changed to %s, hanging up", coinid, partner, partner);
                             util.GETCHAR();
                             return m;
                         }
@@ -276,8 +323,16 @@ public:
                             m.y_code = Message::y_ownership_ok;
                             mylast_x_code = Message::x_none;
                             mylast_y_code = protocol_type = Message::y_none;
-                            printf("mint: received y_zk_challenge for coind %d from %s, sending y_ownership_ok to %s, hanging up",
-                                coinid, partner, partner);
+                            std::cout << "mint: received y_zk_challenge for coind " << coinid << " from ";
+                            for (int i = 0; i < strlen(partner); i++) {
+                              std::cout << partner[i];
+                            } 
+                            std::cout << ", sending y_ownership_ok to ";
+                            for (int i = 0; i < strlen(partner); i++) {
+                              std::cout << partner[i];
+                            } 
+                            std::cout << ", hanging up" << std::endl;
+                            //printf("mint: received y_zk_challenge for coind %d from %s, sending y_ownership_ok to %s, hanging up", coinid, partner, partner);
                             util.GETCHAR();
                             return m;
                         }
@@ -287,8 +342,16 @@ public:
                             m.y_code = Message::y_secret_change_denied;
                             mylast_x_code = Message::x_none;
                             mylast_y_code = protocol_type = Message::y_none;
-                            printf("mint: received y_zk_challenge for coin %d from %s, sending y_secret_change_denied to %s, hanging up",
-                                coinid, partner, partner);
+                            std::cout << "mint: received y_zk_challenge for coin " << coinid << " from ";
+                            for (int i = 0; i < strlen(partner); i++) {
+                              std::cout << partner[i];
+                            } 
+                            std::cout << ", sending y_secret_change_denied to ";
+                            for (int i = 0; i < strlen(partner); i++) {
+                              std::cout << partner[i];
+                            } 
+                            std::cout << ", hanging up" << std::endl;
+                            //printf("mint: received y_zk_challenge for coin %d from %s, sending y_secret_change_denied to %s, hanging up", coinid, partner, partner);
                             util.GETCHAR();
                             return m;
                         }
@@ -296,7 +359,16 @@ public:
                             m.y_code = Message::y_ownership_wrong;
                             mylast_x_code = Message::x_none;
                             mylast_y_code = protocol_type = Message::y_none;
-                            printf("mint: received y_zk_challenge for coin %d from %s, sending y_ownership_wrong to %s, hanging up", coinid, partner, partner);
+                            std::cout << "mint: received y_zk_challenge for coin " << coinid << " from ";
+                            for (int i = 0; i < strlen(partner); i++) {
+                              std::cout << partner[i];
+                            } 
+                            std::cout << ", sending y_ownership_wrong to ";
+                            for (int i = 0; i < strlen(partner); i++) {
+                              std::cout << partner[i];
+                            } 
+                            std::cout << ", hanging up" << std::endl;
+                            //printf("mint: received y_zk_challenge for coin %d from %s, sending y_ownership_wrong to %s, hanging up", coinid, partner, partner);
                             util.GETCHAR();
                             return m;
                         }
@@ -304,7 +376,8 @@ public:
                 }
                 else {
                     // protocol fault
-                    printf("mint: protocol fault, hanging up");
+                    std::cout << "mint: protocol fault, hanging up" << std::endl;
+                    //printf("mint: protocol fault, hanging up");
                     util.GETCHAR();
                     mylast_x_code = Message::x_none;
                     mylast_y_code = Message::y_none;
@@ -314,7 +387,8 @@ public:
             }
             else {
                 // protocol fault
-                printf("mint: protocol fault, hanging up");
+                std::cout << "mint: protocol fault, hanging up" << std::endl;
+                //printf("mint: protocol fault, hanging up");
                 util.GETCHAR();
                 mylast_x_code = Message::x_none;
                 mylast_y_code = Message::y_none;
@@ -322,8 +396,8 @@ public:
                 return m;
             }
         }//end of x_message
-
-        printf("mint: protocol faultn");
+        std::cout << "mint: protocol faultn" << std::endl;
+        //printf("mint: protocol faultn");
         util.GETCHAR();
         m.x_code = Message::x_hup;
         mylast_x_code = Message::x_none;

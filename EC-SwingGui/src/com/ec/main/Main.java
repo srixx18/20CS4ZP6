@@ -8,8 +8,10 @@ package com.ec.main;
 import com.ec.admin.Admin;
 import com.ec.jna.AdminHandler;
 import com.ec.jna.WalletHandler;
+import com.ec.utils.Logger;
 import com.ec.wallet.Wallet;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,17 +19,32 @@ import java.io.File;
  */
 public class Main {
     
+    public static ArrayList<Wallet> WalletInstances = new ArrayList<Wallet>();
+    
+    public static void RefreshWalletsCoinsSize() {
+        for (Wallet wallet : WalletInstances) {
+            wallet.updateCoinsSize();
+        }
+    }
+    
+    Logger logger;
+    
     Admin admin;
-    Wallet wallet;
+    Wallet wallet1;
+    Wallet wallet2;
     
     public Main() {
+        logger = new Logger();
         admin = new Admin();
-        wallet = new Wallet();
+        wallet1 = new Wallet(1);
+        wallet2 = new Wallet(2);
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                logger.setVisible(true);
                 admin.setVisible(true);
-                wallet.setVisible(true);
+                wallet1.setVisible(true);
+                wallet2.setVisible(true);
             }
         });
     }

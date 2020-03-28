@@ -23,7 +23,7 @@ import javax.swing.JScrollPane;
  * @author jiajin
  */
 public class Admin extends javax.swing.JFrame {
-
+    
     private AdminHandler adminHandler;
 
     /**
@@ -57,6 +57,7 @@ public class Admin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EC_Admin");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        setLocationByPlatform(true);
         setName("ec_admin"); // NOI18N
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

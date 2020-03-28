@@ -5,10 +5,12 @@
  */
 package com.ec.jna;
 
+import com.ec.utils.Logger;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,25 +35,38 @@ public class WalletHandler {
         
     Pointer wallet;
     String[] tokenId;
+    private int instanceId;
     
-    public WalletHandler(){
-        wallet = JNA.INSTANCE.init_wallet();
+    public static Pointer RetrieveOrCreateWalletPointer(int instanceId, boolean create) {
+        if (AdminHandler.JNAWalletPointers.get(instanceId) == null && create) {
+            Pointer walletPointer = JNA.INSTANCE.init_wallet();
+            AdminHandler.JNAWalletPointers.put(instanceId, walletPointer);
+            return walletPointer;
+        } else {
+            return AdminHandler.JNAWalletPointers.get(instanceId);
+        }
+    }
+    
+    public WalletHandler(int instanceId){
+        wallet = WalletHandler.RetrieveOrCreateWalletPointer(instanceId, true);
+        Logger.Log("Admin/Wallet created.");
+        instanceId = instanceId;
     }
     
     public String showWallet(Boolean mini) {
-        return JNA.INSTANCE.show_wallet(wallet, mini);
+        return Logger.Log(JNA.INSTANCE.show_wallet(wallet, mini));
     }
     
     public String verify(int id){
-        return JNA.INSTANCE.verify(wallet, id);
+        return Logger.Log(JNA.INSTANCE.verify(wallet, id));
     }
     
     public String transfer(Pointer receiver) {
-        return JNA.INSTANCE.transfer(wallet, receiver);
+        return Logger.Log(JNA.INSTANCE.transfer(wallet, receiver));
     }
     
     public String transferFakse(Pointer receiver) {
-        return JNA.INSTANCE.transfer_fake(wallet, receiver);
+        return Logger.Log(JNA.INSTANCE.transfer_fake(wallet, receiver));
     }
     
     public List<String> sp_getWalletMiniData() {

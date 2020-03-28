@@ -7,6 +7,7 @@ package com.ec.wallet;
 
 import com.ec.admin.CoinDetailCard;
 import com.ec.jna.WalletHandler;
+import com.ec.main.Main;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.util.ArrayList;
@@ -20,14 +21,20 @@ import javax.swing.GroupLayout;
 public class Wallet extends javax.swing.JFrame {
 
     private WalletHandler walletHandler;
+    private int instanceId;
     private int coinsSize;
+
     /**
      * Creates new form Wallet
      */
-    public Wallet() {
-        walletHandler = new WalletHandler();
+    public Wallet(int instanceId) {
         initComponents();
+        instanceId = instanceId;
+        walletHandler = new WalletHandler(instanceId);
         updateCoinsSize();
+        wallet_id_text.setText(Integer.toString(instanceId));
+        this.setTitle(String.format("EC_Wallet_%d", instanceId));
+        Main.WalletInstances.add(this);
     }
 
     /**
@@ -62,14 +69,12 @@ public class Wallet extends javax.swing.JFrame {
         coinsPane = new javax.swing.JPanel();
         transfer = new javax.swing.JPanel();
         transfer_label = new javax.swing.JLabel();
-        transfer_coin_id_label = new javax.swing.JLabel();
-        transfer_coin_id_scp = new javax.swing.JScrollPane();
-        transfer_coin_id_text = new javax.swing.JTextPane();
         transfer_wallet_id_label = new javax.swing.JLabel();
         transfer_wallet_id_scp = new javax.swing.JScrollPane();
         transfer_wallet_id_text = new javax.swing.JTextPane();
         transfer_transfer_button = new javax.swing.JButton();
         transfer_menu_button = new javax.swing.JButton();
+        transferOutputMsg = new javax.swing.JLabel();
         verify = new javax.swing.JPanel();
         verify_label = new javax.swing.JLabel();
         verify_coin_id_label = new javax.swing.JLabel();
@@ -84,6 +89,7 @@ public class Wallet extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("EC_Wallet");
+        setLocationByPlatform(true);
 
         holder.setPreferredSize(new java.awt.Dimension(500, 600));
         holder.setLayout(new java.awt.CardLayout());
@@ -110,6 +116,7 @@ public class Wallet extends javax.swing.JFrame {
         menu_wallet_id_label.setText("WALLET ID");
 
         wallet_id_text.setEditable(false);
+        wallet_id_text.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
         menu_wallet_id_scp.setViewportView(wallet_id_text);
 
         menu_coins_button.setText("COINS");
@@ -128,6 +135,11 @@ public class Wallet extends javax.swing.JFrame {
         menu_transfer_button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 navToTransfer(evt);
+            }
+        });
+        menu_transfer_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_transfer_buttonActionPerformed(evt);
             }
         });
 
@@ -315,24 +327,29 @@ public class Wallet extends javax.swing.JFrame {
         transfer_label.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         transfer_label.setText("TRANSFER");
 
-        transfer_coin_id_label.setBackground(new java.awt.Color(0, 0, 0));
-        transfer_coin_id_label.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
-        transfer_coin_id_label.setText("COIN ID");
-
-        transfer_coin_id_scp.setViewportView(transfer_coin_id_text);
-
         transfer_wallet_id_label.setBackground(new java.awt.Color(0, 0, 0));
         transfer_wallet_id_label.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         transfer_wallet_id_label.setText("WALLET ID");
 
+        transfer_wallet_id_text.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
         transfer_wallet_id_scp.setViewportView(transfer_wallet_id_text);
 
         transfer_transfer_button.setText("TRANSFER");
+        transfer_transfer_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transfer_transfer_buttonActionPerformed(evt);
+            }
+        });
 
         transfer_menu_button.setText("MENU");
         transfer_menu_button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 navToMenu(evt);
+            }
+        });
+        transfer_menu_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transfer_menu_buttonActionPerformed(evt);
             }
         });
 
@@ -341,39 +358,39 @@ public class Wallet extends javax.swing.JFrame {
         transferLayout.setHorizontalGroup(
             transferLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(transferLayout.createSequentialGroup()
-                .addGap(100, 100, 100)
-                .addGroup(transferLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(transfer_wallet_id_label)
-                    .addComponent(transfer_wallet_id_scp, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(transfer_coin_id_label)
-                    .addComponent(transfer_coin_id_scp, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(116, Short.MAX_VALUE))
-            .addGroup(transferLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(transferLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(transfer_menu_button, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(transfer_label)
                     .addComponent(transfer_transfer_button, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(transferLayout.createSequentialGroup()
+                .addGap(227, 227, 227)
+                .addComponent(transferOutputMsg)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(transferLayout.createSequentialGroup()
+                .addGap(108, 108, 108)
+                .addGroup(transferLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(transfer_wallet_id_label)
+                    .addComponent(transfer_wallet_id_scp, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         transferLayout.setVerticalGroup(
             transferLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(transferLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(transfer_label)
-                .addGap(36, 36, 36)
-                .addComponent(transfer_coin_id_label)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(transfer_coin_id_scp, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(52, 52, 52)
                 .addComponent(transfer_wallet_id_label)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(transfer_wallet_id_scp, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(98, 98, 98)
+                .addGap(155, 155, 155)
+                .addComponent(transferOutputMsg)
+                .addGap(18, 18, 18)
                 .addComponent(transfer_transfer_button, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(transfer_menu_button, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(94, Short.MAX_VALUE))
+                .addContainerGap(104, Short.MAX_VALUE))
         );
 
         holder.add(transfer, "transfer");
@@ -565,21 +582,53 @@ public class Wallet extends javax.swing.JFrame {
         coinsPanelLayout.setVerticalGroup(
                 coinsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(verticalSG));
-        
+
         coinsScrollPane.setViewportView(coinsPane);
     }//GEN-LAST:event_menu_coins_buttonActionPerformed
 
     private void coins_menu_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coins_menu_buttonActionPerformed
         CardLayout cl = (CardLayout) holder.getLayout(); // show coins page
         cl.show(holder, "menu");
+        updateCoinsSize();
     }//GEN-LAST:event_coins_menu_buttonActionPerformed
 
-    
-    private void updateCoinsSize() {
+    private void menu_transfer_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_transfer_buttonActionPerformed
+        CardLayout cl = (CardLayout) holder.getLayout(); // show coins page
+        cl.show(holder, "transfer");
+    }//GEN-LAST:event_menu_transfer_buttonActionPerformed
+
+    private void transfer_menu_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transfer_menu_buttonActionPerformed
+        CardLayout cl = (CardLayout) holder.getLayout(); // show coins page
+        cl.show(holder, "transfer");
+        updateCoinsSize();
+    }//GEN-LAST:event_transfer_menu_buttonActionPerformed
+
+    private void transfer_transfer_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transfer_transfer_buttonActionPerformed
+        int toWalletId;
+        try {
+            toWalletId = Integer.parseInt(transfer_wallet_id_text.getText());
+        } catch (NumberFormatException e) {
+            transferOutputMsg.setText("walletId must be an Integer");
+            return;
+        }
+        if (WalletHandler.RetrieveOrCreateWalletPointer(toWalletId, false) == null) {
+            transferOutputMsg.setText("walletId none exist");
+        } else {
+            String output = walletHandler.transfer(WalletHandler.RetrieveOrCreateWalletPointer(toWalletId, false));
+            if (output.contains("received y_transfer_completed from")) {
+                transferOutputMsg.setText("done");
+                Main.RefreshWalletsCoinsSize();
+            } else {
+                transferOutputMsg.setText("err");
+            }
+        }
+    }//GEN-LAST:event_transfer_transfer_buttonActionPerformed
+
+    public void updateCoinsSize() {
         coinsSize = walletHandler.sp_getWalletMiniData().size();
         menu_coin_numb_text.setText(Integer.toString(coinsSize));
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel coins;
     private javax.swing.JPanel coinsPane;
@@ -598,9 +647,7 @@ public class Wallet extends javax.swing.JFrame {
     private javax.swing.JLabel menu_wallet_id_label;
     private javax.swing.JScrollPane menu_wallet_id_scp;
     private javax.swing.JPanel transfer;
-    private javax.swing.JLabel transfer_coin_id_label;
-    private javax.swing.JScrollPane transfer_coin_id_scp;
-    private javax.swing.JTextPane transfer_coin_id_text;
+    private javax.swing.JLabel transferOutputMsg;
     private javax.swing.JLabel transfer_label;
     private javax.swing.JButton transfer_menu_button;
     private javax.swing.JButton transfer_transfer_button;

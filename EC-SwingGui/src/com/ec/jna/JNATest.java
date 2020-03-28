@@ -16,8 +16,8 @@ public class JNATest {
     public void strTst() {
         String output;
 
-        WalletHandler wallet1 = new WalletHandler();
-        WalletHandler wallet2 = new WalletHandler();
+        WalletHandler wallet1 = new WalletHandler(1);
+        WalletHandler wallet2 = new WalletHandler(2);
         output = wallet1.showWallet(false);
         System.out.println(output);
 
@@ -33,10 +33,13 @@ public class JNATest {
     }
 
     public static void main(String[] args) {
-        WalletHandler walletHandler = new WalletHandler();
+        AdminHandler adminHandler = new AdminHandler();
+        WalletHandler walletHandler1 = new WalletHandler(1);
+        WalletHandler walletHandler2 = new WalletHandler(2);
         
-        List<String> output = walletHandler.sp_getWalletMiniData();
+        String a = walletHandler1.transfer(WalletHandler.RetrieveOrCreateWalletPointer(2, false));
+        System.out.println(a);
         
-        System.out.println(output.size());
+        System.out.println(walletHandler1.showWallet(true));
     }
 }

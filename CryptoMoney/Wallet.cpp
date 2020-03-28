@@ -124,7 +124,8 @@ public:
         long x;
         x = mint->give_initial_coin(walletid, secret, coinid);
         if (x == Message::y_coin_not_given) {
-            printf("did not get required coin from Mint");
+            std::cout << "did not get required coin from Mint" << std::endl;
+            //printf("did not get required coin from Mint");
             util.GETCHAR();
             exit(0);
         }
@@ -137,7 +138,8 @@ public:
         Util util;
         for (long i = 0; i < number_of_initial_coins; i++)
             get_initial_coin();
-        printf("wallet %d: recieved %d initial coins from mint", walletid, number_of_initial_coins);
+        std::cout << "wallet " << walletid << ": received " << number_of_initial_coins << " initial coins from mint" << std::endl;
+        //printf("wallet %d: recieved %d initial coins from mint", walletid, number_of_initial_coins);
         util.GETCHAR();
     }//end get_initial_coins
 
@@ -145,8 +147,9 @@ public:
 #define wHUP() { wylast_x_code = m.Message::x_code = Message::x_hup; \
                     wylast_y_code = m.Message::y_code = Message::y_none; \
                     wdialogue_type = Message::y_none; \
-                    printf("wallet %d: protocol fault, hanging up",walletid); \
+                    std::cout << "wallet " << walletid << ": protocol fault, hanging up"; \
                     return m; }
+                    //printf("wallet %d: protocol fault, hanging up",walletid); \
 
 
     void transfer_coin(Wallet* w) {
@@ -154,18 +157,22 @@ public:
         init();
         w->init();
         wC = new Comm(this, w);  // communication object
-        std::cout << wpartner << "wallet " << w->walletid << std::endl;
+        std::cout << "wallet " << w->walletid << std::endl;
         //sprintf_s(wpartner, "wallet %d", w->walletid);
         Message m;
         m.x_code = Message::x_start;
-        std::cout << m.message << "wallet " << walletid << std::endl;
+        std::cout << "wallet " << walletid << std::endl;
         //sprintf_s(m.message, "wallet %d", walletid);  // so the wallet w knows who it is talking to
         wdialogue_coinid = coins->root->coinid;
         if (wdialogue_secret) delete wdialogue_secret;
         wdialogue_secret = coins->root->secret;
-        std::cout << "wallet " << walletid << ":sent x_start to " << wpartner << " to start coin transfer";
+
+        std::cout << "wallet " << walletid << ": sent x_start to ";
+        for (int i = 0; i < strlen(wpartner); i++) {
+          std::cout << wpartner[i];
+        }
+        std::cout << " to start coin transfer " << std::endl;
         //printf("wallet %d: sent x_start to %s to start coin transfer", walletid, wpartner);
-        std::cout << std::endl;
         util.GETCHAR();
         wylast_x_code = Message::x_start;
         wylast_y_code = Message::y_none;
@@ -216,11 +223,13 @@ public:
 
     void remove_transferred_coin(Message& m) {
         if (coins == 0) {
-            printf("remove_transferred_coin internal error 1\n");
+            std::cout << "remove_transferred_coin internal error 1" << std::endl;
+            //printf("remove_transferred_coin internal error 1\n");
             exit(0);
         }
         if (coins->root == 0) {
-            printf("remove_transefered_coin internal error 2\n");
+            std::cout << "remove_transferred_coin internal error 2" << std::endl;
+            //printf("remove_transefered_coin internal error 2\n");
             exit(0);
         }
         bool found = false;
@@ -232,7 +241,8 @@ public:
             }
         }
         if (!found) {
-            printf("remove_transefered_coin internal error 2\n");
+            std::cout << "remove_transferred_coin internal error 2" << std::endl;
+            //printf("remove_transefered_coin internal error 2\n");
             exit(0);
         }
         // remove p
@@ -257,7 +267,12 @@ public:
         }
         long* t = (long*)&m.message;
         *t = wdialogue_coinid;
-        printf("wallet %d: transferred coin %d to %s", walletid, wdialogue_coinid, wpartner);
+        std::cout << "wallet " << walletid << ": transferred coin " << wdialogue_coinid << " to ";
+        for (int i = 0; i < strlen(wpartner); i++) {
+          std::cout << wpartner[i];
+        }
+        std::cout << std::endl;
+        //printf("wallet %d: transferred coin %d to %s", walletid, wdialogue_coinid, wpartner);
         Util util;
         util.GETCHAR();
     }//end remove_transferred coin
@@ -267,7 +282,12 @@ public:
         Util util;
         long* p = (long*)&m.message;
         wdialogue_coinid = *p;
-        printf("wallet %d: received coin %d from %s", walletid, wdialogue_coinid, wpartner);
+        std::cout << "wallet " << walletid << ": received coin " << wdialogue_coinid << " from ";
+        for (int i = 0; i < strlen(wpartner); i++) {
+          std::cout << wpartner[i];
+        }
+        std::cout << std::endl;
+        //printf("wallet %d: received coin %d from %s", walletid, wdialogue_coinid, wpartner);
         util.GETCHAR();
         coins->insert(wdialogue_coinid, wdialogue_secret, wdialogue_vector);
     }//end dd_transferred_coin
@@ -280,7 +300,16 @@ public:
                 if (wylast_x_code != 0 || wylast_y_code != 0) wHUP()
                     strcpy_s(wpartner, m.message);
             wdialogue_type = Message::y_receive_coin;
-            printf("wallet %d: received x_start for coin transfer from %s, sending x_ok to %s", walletid, wpartner, wpartner);
+            std::cout << "wallet " << walletid << ": received x_start for coin transfer from ";
+            for (int i = 0; i < strlen(wpartner); i++) {
+              std::cout << wpartner[i];
+            } 
+            std::cout << ", sending x_ok to ";
+            for (int i = 0; i < strlen(wpartner); i++) {
+              std::cout << wpartner[i];
+            }
+            std::cout << std::endl;
+            //printf("wallet %d: received x_start for coin transfer from %s, sending x_ok to %s", walletid, wpartner, wpartner);
             util.GETCHAR();
             wylast_x_code = m.x_code = Message::x_ok;
             wylast_y_code = m.y_code = Message::y_none;
@@ -288,9 +317,18 @@ public:
         }
 
         if (m.x_code == Message::x_ok) {
-            if (wdialogue_type == 0 || wdialogue_type == Message::y_receive_coin) wHUP()
-                if (wylast_x_code != Message::x_start || wylast_y_code != 0) wHUP()
-                    printf("wallet %d: received x_ok from %s, sending request for y_new_secret to %s", walletid, wpartner, wpartner);
+          if (wdialogue_type == 0 || wdialogue_type == Message::y_receive_coin) wHUP()
+            if (wylast_x_code != Message::x_start || wylast_y_code != 0) wHUP()
+              std::cout << "wallet " << walletid << ": received x_ok from ";
+              for (int i = 0; i < strlen(wpartner); i++) {
+                std::cout << wpartner[i];
+              }
+              std::cout << ", sending request for y_new_secret to ";
+              for (int i = 0; i < strlen(wpartner); i++) {
+                std::cout << wpartner[i];
+              }
+              std::cout << std::endl;
+              //printf("wallet %d: received x_ok from %s, sending request for y_new_secret to %s", walletid, wpartner, wpartner);
             util.GETCHAR();
             wylast_x_code = m.x_code = Message::x_message;
             wylast_y_code = m.y_code = Message::y_new_secret;
@@ -300,7 +338,12 @@ public:
         if (m.x_code == Message::x_hup) {
             if (m.y_code == Message::y_transfer_completed || m.y_code == Message::y_transfer_rejected) {
                 if (m.y_code == Message::y_transfer_completed) add_transferred_coin(m);
-                printf("wallet %d: received %s from %s, hanging up", walletid, m.sy(), wpartner);
+                std::cout << "wallet " << walletid << ": received " << m.sy() << " from ";
+                for (int i = 0; i < strlen(wpartner); i++) {
+                  std::cout << wpartner[i];
+                }
+                std::cout << ", hanging up" << std::endl;
+                //printf("wallet %d: received %s from %s, hanging up", walletid, m.sy(), wpartner);
                 wdialogue_res = m.y_code;
                 wylast_x_code = m.x_code = Message::x_hup;
                 wylast_y_code = m.y_code = Message::y_none;
@@ -318,7 +361,20 @@ public:
                             generate_newsecret_to_message(m);
                 m.x_code = wylast_x_code = Message::x_message;
                 m.y_code = wylast_y_code = Message::y_new_secret;
-                printf("wallet %d: received request for %s from %s, sendin %s to %s", walletid, m.sy(), wpartner, m.sy(), wpartner);
+                std::cout << "wallet " << walletid << ": received request for " << m.sy() << " from ";
+                for (int i = 0; i < strlen(wpartner); i++) {
+                  std::cout << wpartner[i];
+                }
+                std::cout << ", sendin ";
+                for (int i = 0; i < strlen(m.sy()); i++) {
+                  std::cout << m.sy()[i];
+                }
+                std::cout << " to ";
+                for (int i = 0; i < strlen(wpartner); i++) {
+                  std::cout << wpartner[i];
+                }
+                std::cout << std::endl;
+                //printf("wallet %d: received request for %s from %s, sendin %s to %s", walletid, m.sy(), wpartner, m.sy(), wpartner);
                 util.GETCHAR();
                 return m;
             }
@@ -344,7 +400,8 @@ public:
                 }
             }
             else {
-                printf("wdialogue_type error\n");
+                std::cout << "wdialogue_type error" << std::endl;
+                //printf("wdialogue_type error\n");
                 exit(0);
             }
         }
@@ -356,14 +413,17 @@ public:
         Util util;
         if (mC) delete mC;
         mC = new Comm(this, mint);  // communication object
-        sprintf_s(mpartner, "mint");
+        std::cout << "mint";
+        //sprintf_s(mpartner, "mint");
         Message m;
         m.x_code = Message::x_start;
-        sprintf_s(m.message, "wallet %d", walletid);  // so the Mint knows who it is talking to
+        std::cout << "wallet " << walletid;
+        //sprintf_s(m.message, "wallet %d", walletid);  // so the Mint knows who it is talking to
         mdialogue_type = Message::y_change_secret;
         mdialogue_coin = coins->root;
         mdialogue_secret = newsecret;
-        printf("wallet %d: sent x_start to mint", walletid);
+        std::cout << "wallet " << walletid << ": sent x_start to mint" << std::endl;
+        //printf("wallet %d: sent x_start to mint", walletid);
         util.GETCHAR();
         mylast_x_code = Message::x_start;
         mylast_y_code = Message::y_none;
@@ -378,11 +438,11 @@ public:
         init();
         if (mC) delete mC;
         mC = new Comm(this, mint);  // communication object
-        std::cout << mpartner << "mint" << std::endl;
+        std::cout << "mint" << std::endl;
         //sprintf_s(mpartner, "mint");
         Message m;
         m.x_code = Message::x_start;
-        std::cout << m.message << "wallet " << walletid << std::endl;
+        std::cout << "wallet " << walletid << std::endl;
         //sprintf_s(m.message, "wallet %d", walletid);  // so the Mint knows who it is talking to
         mdialogue_type = Message::y_verify_ownership;
         mdialogue_coin = find_coin(coinid);
@@ -398,7 +458,7 @@ public:
         else {
             if (mdialogue_secret) delete mdialogue_secret;
             mdialogue_secret = 0;
-            std::cout << "wallet " << walletid << " send x_start to mint";
+            std::cout << "wallet " << walletid << " send x_start to mint" << std::endl;
             //printf("wallet %d: sent x_start to mint", walletid);
             std::cout << std::endl;
             util.GETCHAR();
@@ -476,7 +536,8 @@ public:
                     mylast_x_code = m.x_code = Message::x_message;
                     mylast_y_code = m.y_code = Message::y_change_secret;
                     put_coinid_newsecret_in_message(m, mdialogue_coin, mdialogue_secret);
-                    printf("wallet %d: received x_ok from mint, sending y_change_secret to mint for coin %d", walletid, mdialogue_coin->coinid);
+                    std::cout << "wallet " << walletid << ": received x_ok from mint, sending y_change_secret to mint for coin " << mdialogue_coin->coinid << std::endl;
+                    //printf("wallet %d: received x_ok from mint, sending y_change_secret to mint for coin %d", walletid, mdialogue_coin->coinid);
                     util.GETCHAR();
                     return m;
                 }
@@ -484,7 +545,8 @@ public:
                     mylast_x_code = m.x_code = Message::x_message;
                     mylast_y_code = m.y_code = Message::y_verify_ownership;
                     put_coinid_in_message(m, mdialogue_coin->coinid);
-                    printf("wallet %d: received x_ok from mint, sending y_verify_ownership to mint for coin %d", walletid, mdialogue_coin->coinid);
+                    std::cout << "wallet " << walletid << ": received x_ok from mint, sending y_verify_ownership to mint for coin " << mdialogue_coin->coinid << std::endl;
+                    //printf("wallet %d: received x_ok from mint, sending y_verify_ownership to mint for coin %d", walletid, mdialogue_coin->coinid);
                     util.GETCHAR();
                     return m;
                 }
@@ -493,18 +555,21 @@ public:
         if (m.x_code == Message::x_message) {
             if (m.y_code == Message::y_zk_info) {
                 if (coins == 0) {
-                    printf("wallet %d: error -- I do not have any coins to give\n", walletid);
+                    std::cout << "wallet " << walletid << ": error -- I do not have any coins to give" << std::endl;
+                    //printf("wallet %d: error -- I do not have any coins to give\n", walletid);
                     mHUP()
                 }
                 if (coins->root == 0) {
-                    printf("wallet %d: error -- I do not have any coins to give\n", walletid);
+                    std::cout << "wallet " << walletid << ": error -- I do not have any coins to give" << std::endl;
+                    //printf("wallet %d: error -- I do not have any coins to give\n", walletid);
                     mHUP()
                 }
                 mdialogue_coin = coins->root;
                 put_zk_info_in_message(m, mdialogue_coin);
                 mylast_x_code = m.x_code = Message::x_message;
                 mylast_y_code = m.y_code = Message::y_zk_info;
-                printf("wallet %d: received request for zk_info for coin %d from mint, sending zk_info to mint", walletid, mdialogue_coin->coinid);
+                std::cout << "wallet " << walletid << ": received request for zk_info for coin " << mdialogue_coin->coinid << " from mint, sending zk_info to mint" << std::endl;
+                //printf("wallet %d: received request for zk_info for coin %d from mint, sending zk_info to mint", walletid, mdialogue_coin->coinid);
                 util.GETCHAR();
                 return m;
             }
@@ -513,7 +578,8 @@ public:
                 put_zk_response_in_message(m);
                 mylast_x_code = m.x_code = Message::x_message;
                 mylast_y_code = m.y_code = Message::y_zk_challenge;
-                printf("wallet %d: received zk_challenge for coin %d from mint, sending zk_response to mint", walletid, mdialogue_coin->coinid);
+                std::cout << "wallet " << walletid << ": received zk_challenge for coin " << mdialogue_coin->coinid << " from mint, sending zk_response to mint" << std::endl;
+                //printf("wallet %d: received zk_challenge for coin %d from mint, sending zk_response to mint", walletid, mdialogue_coin->coinid);
                 util.GETCHAR();
                 return m;
             }
@@ -523,7 +589,12 @@ public:
         if (m.x_code == Message::x_hup) {
             if (m.y_code == Message::y_secret_changed || m.y_code == Message::y_secret_change_denied || m.y_code == Message::y_ownership_ok ||
                 m.y_code == Message::y_ownership_wrong) {
-                printf("wallet %d: received %s for coind %d from mint, terminating communication with mint", walletid, m.sy(), mdialogue_coin->coinid);
+                std::cout << "wallet " << walletid << ": received ";
+                for (int i = 0; i < strlen(m.sy()); i++) {
+                  std::cout << m.sy()[i];
+                }
+                std::cout << " for coind " << mdialogue_coin->coinid << " from mint, terminating communication with mint" << std::endl;
+                //printf("wallet %d: received %s for coind %d from mint, terminating communication with mint", walletid, m.sy(), mdialogue_coin->coinid);
                 util.GETCHAR();
                 mdialogue_res = m.y_code;
                 mylast_x_code = Message::x_none;
