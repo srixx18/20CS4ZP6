@@ -14,8 +14,10 @@ public class CoinDetailCard extends javax.swing.JPanel {
     /**
      * Creates new form CoinDetailCard
      */
-    public CoinDetailCard() {
+    public CoinDetailCard(int id, String coinId) {
         initComponents();
+        this.numbID.setText(Integer.toString(id));
+        this.coin_id.setText(coinId);
     }
 
     /**
@@ -31,8 +33,6 @@ public class CoinDetailCard extends javax.swing.JPanel {
         numbID = new javax.swing.JLabel();
         coin_id_label = new javax.swing.JLabel();
         coin_id = new javax.swing.JLabel();
-        secret_label = new javax.swing.JLabel();
-        secret = new javax.swing.JLabel();
 
         numbID.setText("#numb");
 
@@ -41,10 +41,6 @@ public class CoinDetailCard extends javax.swing.JPanel {
         coin_id.setText("#coinID");
         coin_id.setToolTipText("");
 
-        secret_label.setText("SECRET:");
-
-        secret.setText("#secret");
-
         javax.swing.GroupLayout paneLayout = new javax.swing.GroupLayout(pane);
         pane.setLayout(paneLayout);
         paneLayout.setHorizontalGroup(
@@ -52,15 +48,11 @@ public class CoinDetailCard extends javax.swing.JPanel {
             .addGroup(paneLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(numbID)
-                .addGap(18, 18, 18)
+                .addGap(48, 48, 48)
                 .addComponent(coin_id_label)
                 .addGap(18, 18, 18)
                 .addComponent(coin_id)
-                .addGap(55, 55, 55)
-                .addComponent(secret_label)
-                .addGap(18, 18, 18)
-                .addComponent(secret)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addContainerGap(267, Short.MAX_VALUE))
         );
         paneLayout.setVerticalGroup(
             paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -69,9 +61,7 @@ public class CoinDetailCard extends javax.swing.JPanel {
                 .addGroup(paneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(numbID)
                     .addComponent(coin_id_label)
-                    .addComponent(coin_id)
-                    .addComponent(secret_label)
-                    .addComponent(secret))
+                    .addComponent(coin_id))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
@@ -93,7 +83,5 @@ public class CoinDetailCard extends javax.swing.JPanel {
     private javax.swing.JLabel coin_id_label;
     private javax.swing.JLabel numbID;
     private javax.swing.JPanel pane;
-    private javax.swing.JLabel secret;
-    private javax.swing.JLabel secret_label;
     // End of variables declaration//GEN-END:variables
 }

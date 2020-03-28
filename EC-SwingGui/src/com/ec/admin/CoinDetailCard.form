@@ -34,15 +34,11 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="numbID" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
                   <Component id="coin_id_label" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="coin_id" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
-                  <Component id="secret_label" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="secret" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="132" max="32767" attributes="0"/>
+                  <EmptySpace pref="267" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -54,8 +50,6 @@
                       <Component id="numbID" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="coin_id_label" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="coin_id" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="secret_label" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="secret" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="29" max="32767" attributes="0"/>
               </Group>
@@ -77,16 +71,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="#coinID"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="secret_label">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="SECRET:"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="secret">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="#secret"/>
           </Properties>
         </Component>
       </SubComponents>

@@ -5,7 +5,13 @@
  */
 package com.ec.wallet;
 
+import com.ec.admin.CoinDetailCard;
+import com.ec.jna.WalletHandler;
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.GroupLayout;
 
 /**
  *
@@ -13,11 +19,15 @@ import java.awt.CardLayout;
  */
 public class Wallet extends javax.swing.JFrame {
 
+    private WalletHandler walletHandler;
+    private int coinsSize;
     /**
      * Creates new form Wallet
      */
     public Wallet() {
+        walletHandler = new WalletHandler();
         initComponents();
+        updateCoinsSize();
     }
 
     /**
@@ -48,6 +58,8 @@ public class Wallet extends javax.swing.JFrame {
         coins = new javax.swing.JPanel();
         coins_label = new javax.swing.JLabel();
         coins_menu_button = new javax.swing.JButton();
+        coinsScrollPane = new javax.swing.JScrollPane();
+        coinsPane = new javax.swing.JPanel();
         transfer = new javax.swing.JPanel();
         transfer_label = new javax.swing.JLabel();
         transfer_coin_id_label = new javax.swing.JLabel();
@@ -71,6 +83,7 @@ public class Wallet extends javax.swing.JFrame {
         verify_failed_menu_button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("EC_Wallet");
 
         holder.setPreferredSize(new java.awt.Dimension(500, 600));
         holder.setLayout(new java.awt.CardLayout());
@@ -86,7 +99,11 @@ public class Wallet extends javax.swing.JFrame {
         menu_coin_numb_label.setText("COIN NUMB");
 
         menu_coin_numb_text.setEditable(false);
+        menu_coin_numb_text.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
+        menu_coin_numb_text.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        menu_coin_numb_text.setName(""); // NOI18N
         menu_coin_numb_scp.setViewportView(menu_coin_numb_text);
+        menu_coin_numb_text.getAccessibleContext().setAccessibleName("");
 
         menu_wallet_id_label.setBackground(new java.awt.Color(0, 0, 0));
         menu_wallet_id_label.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
@@ -99,6 +116,11 @@ public class Wallet extends javax.swing.JFrame {
         menu_coins_button.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 navToCoins(evt);
+            }
+        });
+        menu_coins_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menu_coins_buttonActionPerformed(evt);
             }
         });
 
@@ -233,6 +255,28 @@ public class Wallet extends javax.swing.JFrame {
                 navToMenu(evt);
             }
         });
+        coins_menu_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                coins_menu_buttonActionPerformed(evt);
+            }
+        });
+
+        coinsScrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        coinsScrollPane.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        coinsScrollPane.setPreferredSize(new java.awt.Dimension(435, 435));
+
+        javax.swing.GroupLayout coinsPaneLayout = new javax.swing.GroupLayout(coinsPane);
+        coinsPane.setLayout(coinsPaneLayout);
+        coinsPaneLayout.setHorizontalGroup(
+            coinsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 419, Short.MAX_VALUE)
+        );
+        coinsPaneLayout.setVerticalGroup(
+            coinsPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 432, Short.MAX_VALUE)
+        );
+
+        coinsScrollPane.setViewportView(coinsPane);
 
         javax.swing.GroupLayout coinsLayout = new javax.swing.GroupLayout(coins);
         coins.setLayout(coinsLayout);
@@ -245,15 +289,20 @@ public class Wallet extends javax.swing.JFrame {
                         .addComponent(coins_label))
                     .addGroup(coinsLayout.createSequentialGroup()
                         .addGap(187, 187, 187)
-                        .addComponent(coins_menu_button, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(200, Short.MAX_VALUE))
+                        .addComponent(coins_menu_button, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(coinsLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(coinsScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 435, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
         coinsLayout.setVerticalGroup(
             coinsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(coinsLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addComponent(coins_label)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 471, Short.MAX_VALUE)
+                .addGap(16, 16, 16)
+                .addComponent(coinsScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(coins_menu_button, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
         );
@@ -482,43 +531,59 @@ public class Wallet extends javax.swing.JFrame {
         cl.show(holder, "menu");
     }//GEN-LAST:event_navToMenu
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Wallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Wallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Wallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Wallet.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void menu_coins_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menu_coins_buttonActionPerformed
+        List<String> coinsData = walletHandler.sp_getWalletMiniData(); // get coins data..
+
+        CardLayout cl = (CardLayout) holder.getLayout(); // show coins page
+        cl.show(holder, "coins");
+
+        javax.swing.GroupLayout coinsPanelLayout = new javax.swing.GroupLayout(coinsPane);
+        coinsPane.setLayout(coinsPanelLayout);
+
+        GroupLayout.ParallelGroup horizontalPG = coinsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING);
+
+        ArrayList<Component> componentList = new ArrayList();
+        for (int i = 0; i < coinsData.size(); i++) {
+            CoinDetailCard card = new CoinDetailCard(i + 1, coinsData.get(i));
+            componentList.add(card);
+            horizontalPG.addComponent(card, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE);
         }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Wallet().setVisible(true);
+        coinsPanelLayout.setHorizontalGroup(
+                coinsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(coinsPanelLayout.createSequentialGroup()
+                                .addContainerGap().addGroup(horizontalPG)));
+
+        GroupLayout.SequentialGroup verticalSG = coinsPanelLayout.createSequentialGroup();
+        for (int i = coinsData.size() - 1; i >= 0; i--) {
+            verticalSG.addComponent(componentList.get(i), javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE);
+            if (i != 0) {
+                verticalSG.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED);
             }
-        });
-    }
+        }
 
+        coinsPanelLayout.setVerticalGroup(
+                coinsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(verticalSG));
+        
+        coinsScrollPane.setViewportView(coinsPane);
+    }//GEN-LAST:event_menu_coins_buttonActionPerformed
+
+    private void coins_menu_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_coins_menu_buttonActionPerformed
+        CardLayout cl = (CardLayout) holder.getLayout(); // show coins page
+        cl.show(holder, "menu");
+    }//GEN-LAST:event_coins_menu_buttonActionPerformed
+
+    
+    private void updateCoinsSize() {
+        coinsSize = walletHandler.sp_getWalletMiniData().size();
+        menu_coin_numb_text.setText(Integer.toString(coinsSize));
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel coins;
+    private javax.swing.JPanel coinsPane;
+    private javax.swing.JScrollPane coinsScrollPane;
     private javax.swing.JLabel coins_label;
     private javax.swing.JButton coins_menu_button;
     private javax.swing.JPanel holder;

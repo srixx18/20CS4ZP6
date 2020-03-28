@@ -11,6 +11,9 @@ import com.sun.jna.Pointer;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -38,5 +41,12 @@ public class AdminHandler {
 
     public String showMint(Boolean mini) {
         return JNA.INSTANCE.show_mint(admin, mini);
+    }
+
+    public List<String> sp_getMintMiniData() {
+        String coinsData = this.showMint(true);
+        List<String> output = Arrays.asList(coinsData.split("\\s*coin :\\s*"));
+        output = output.subList(1, output.size());
+        return output;
     }
 }

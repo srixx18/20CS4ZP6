@@ -9,6 +9,8 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  *
@@ -50,5 +52,12 @@ public class WalletHandler {
     
     public String transferFakse(Pointer receiver) {
         return JNA.INSTANCE.transfer_fake(wallet, receiver);
+    }
+    
+    public List<String> sp_getWalletMiniData() {
+        String coinsData = this.showWallet(true).split("wallet \\d\n")[1];
+        List<String> output = Arrays.asList(coinsData.split("\\s*coin: \\d+\n\\s*"));
+        output = output.subList(1, output.size());
+        return output;
     }
 }
