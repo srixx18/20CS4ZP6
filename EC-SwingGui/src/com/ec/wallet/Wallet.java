@@ -206,11 +206,11 @@ public class Wallet extends javax.swing.JFrame {
 
         verify_successed_label1.setBackground(new java.awt.Color(0, 0, 0));
         verify_successed_label1.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        verify_successed_label1.setText("VERIFICATION FAILED");
+        verify_successed_label1.setText("VERIFICATION SUCCESSED");
 
         verify_successed_label2.setBackground(new java.awt.Color(0, 0, 0));
         verify_successed_label2.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
-        verify_successed_label2.setText("YOU THE OWNER OF THE COIN");
+        verify_successed_label2.setText("YOU ARE THE OWNER OF THE COIN");
 
         verify_successed_menu_button.setText("MENU");
         verify_successed_menu_button.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -223,14 +223,14 @@ public class Wallet extends javax.swing.JFrame {
         verify_successed.setLayout(verify_successedLayout);
         verify_successedLayout.setHorizontalGroup(
             verify_successedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, verify_successedLayout.createSequentialGroup()
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addComponent(verify_successed_label2)
+                .addGap(35, 35, 35))
             .addGroup(verify_successedLayout.createSequentialGroup()
-                .addGap(122, 122, 122)
+                .addGap(88, 88, 88)
                 .addComponent(verify_successed_label1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, verify_successedLayout.createSequentialGroup()
-                .addContainerGap(69, Short.MAX_VALUE)
-                .addComponent(verify_successed_label2)
-                .addGap(69, 69, 69))
             .addGroup(verify_successedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(verify_successedLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -244,7 +244,7 @@ public class Wallet extends javax.swing.JFrame {
                 .addComponent(verify_successed_label1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(verify_successed_label2)
-                .addContainerGap(522, Short.MAX_VALUE))
+                .addContainerGap(524, Short.MAX_VALUE))
             .addGroup(verify_successedLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(verify_successedLayout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -405,9 +405,15 @@ public class Wallet extends javax.swing.JFrame {
         verify_coin_id_label.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         verify_coin_id_label.setText("COIN ID");
 
+        verify_coin_id_text.setFont(new java.awt.Font("Dialog", 0, 36)); // NOI18N
         verify_coin_id_scp.setViewportView(verify_coin_id_text);
 
         verify_verify_button.setText("VERIFY");
+        verify_verify_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                verify_verify_buttonActionPerformed(evt);
+            }
+        });
 
         verify_menu_button.setText("MENU");
         verify_menu_button.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -623,6 +629,21 @@ public class Wallet extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_transfer_transfer_buttonActionPerformed
+
+    private void verify_verify_buttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_verify_verify_buttonActionPerformed
+        int coinId = Integer.parseInt(verify_coin_id_text.getText());
+        if (walletHandler.verify(coinId).contains("do not exist")){
+            // verification failed
+            CardLayout cl = (CardLayout) holder.getLayout(); // show coins page
+            cl.show(holder, "verify_failed");
+            verify_coin_id_text.setText("");
+        } else {
+            // verification successed
+            CardLayout cl = (CardLayout) holder.getLayout(); // show coins page
+            cl.show(holder, "verify_successed");
+            verify_coin_id_text.setText("");
+        }
+    }//GEN-LAST:event_verify_verify_buttonActionPerformed
 
     public void updateCoinsSize() {
         coinsSize = walletHandler.sp_getWalletMiniData().size();
