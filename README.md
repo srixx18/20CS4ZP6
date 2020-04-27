@@ -1,9 +1,17 @@
 
+# Final Product
+
+An output for Win64 architecture is added under the ``output/win64`` folder.
+
+To run - double click the executable .jar file. 
+
+***Note: Java 8 or Above JRE/JDK is required.***
+
+To run on other platforms, please refer to 5.2.2.2 in FinalDoc.
+
 # 20CS4ZP6
 
 A crypto loyalty point system
-
-  
 
 ## Swing GUI
 

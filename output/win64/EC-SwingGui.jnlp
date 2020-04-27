@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="EC-SwingGui.jnlp">
+  <information>
+    <title>EC-SwingGui</title>
+    <vendor>jiajin</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="EC-SwingGui.jar" size="31710" download="eager" />
+    <jar href="lib\AbsoluteLayout.jar" size="10194" download="eager" />
+    <jar href="lib\jna-5.5.0.jar" size="1506993" download="eager" />
+  </resources>
+  <application-desc main-class="com.ec.main.Main"  name="EC-SwingGui" >
+  </application-desc>
+  <update check="always"/>
+</jnlp>

@@ -12,6 +12,7 @@ import com.ec.utils.Logger;
 import com.ec.wallet.Wallet;
 import java.io.File;
 import java.util.ArrayList;
+import javax.swing.JFrame;
 
 /**
  *
@@ -45,6 +46,10 @@ public class Main {
                 admin.setVisible(true);
                 wallet1.setVisible(true);
                 wallet2.setVisible(true);
+                logger.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                admin.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                wallet1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                wallet2.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             }
         });
     }
